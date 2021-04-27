@@ -11,3 +11,6 @@ def splash(request):
     # else:
 	    # return render(request, "splash.html", {})
     return render(request, "splash.html", {})
+
+def book_directory(request):
+    return render(request, "book_directory.html", {})

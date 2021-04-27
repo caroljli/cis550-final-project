@@ -15,9 +15,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from books.views import splash
+from books.views import splash, book_directory
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', splash, name="splash"),
+    path('books', book_directory, name="books")
 ]
