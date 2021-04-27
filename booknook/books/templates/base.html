@@ -20,8 +20,11 @@
             <a class="navbar-item" href="/">
               <img src="https://i.imgur.com/dwjxvsA.png">
             </a>
-            <a class="navbar-item" href="/">
-                Home
+            
+            {% if user.is_authenticated %}
+
+            <a class="navbar-item" href="/timeline">
+                Timeline
             </a>
             <a class="navbar-item" href="/books">
                 Book Directory
@@ -29,6 +32,23 @@
             <a class="navbar-item" href="/profile">
                 Profile
             </a>
+
+            <div class="navbar-end">
+                <div class="navbar-item">
+                    <div class=buttons>
+                        <a class="button is-light" href="/logout_view/"><strong>Logout</strong></a>
+                    </div>
+                </div>
+            </div>
+
+            {% else %}
+
+            <a class="navbar-item" href="/login">
+                Login
+            </a>
+
+            {% endif %}
+
         </nav>
 
         {% block content %}

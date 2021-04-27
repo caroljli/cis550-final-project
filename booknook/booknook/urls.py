@@ -16,11 +16,21 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from books.views import splash, book_directory
-from user.views import profile
+from user.views import profile, timeline, user_login, user_login_view, logout_view
 
 urlpatterns = [
+    # general
     path('admin/', admin.site.urls),
     path('', splash, name="splash"),
+    path('logout_view/', logout_view, name="logout_view"),
+
+    # user pages
     path('books/', book_directory, name="books"),
     path('profile/', profile, name="profile"),
+    path('timeline/', timeline, name="timeline"),
+
+    # user auth
+    path('user_login_view/', user_login_view, name="user_login_view"),
+    path('login/', user_login, name="login"),
+
 ]

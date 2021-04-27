@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<section class="hero is-info">
+    <div class="hero-body">
+      <div class="container">
+        <h1 class="title">
+          Welcome back, Kim Soo Hyung!!
+        </h1>
+        <h2 class="subtitle">
+          Here are your most recent BookNook updates.
+        </h2>
+      </div>
+    </div>
+</section>
+
+<div class="columns">
+    <div class="column is-one-fifth"></div>
+    <div class="column">
+        <section class="section">
+            <div class="container">
+                <h2 class="title is-4">Reviews from Users and Books You Follow</h2>
+                <h3 class="subtitle is-5">Keep updated with the most recent activity from books and users you care about.</h3>
+
+                <div class="card">
+                    <!-- {% if review.picture_is_not_null %}
+                    <div class="card-image">
+                        <figure class="image is-4by3">
+                            <img src="{{ review.picture }}">
+                        </figure>
+                    </div>
+                    {% endif %} -->
+                    <div class="card-content">
+                        <div class="media">
+                            <!-- <div class="media-left">
+                                <figure class="image is-48x48">
+                                    <img src="{{ review.get_user_picture }}">
+                                </figure>
+                            </div> -->
+                            <div class="media-content">
+                                <p class="title is-4">Review Title</p>
+                                <p class="subtitle is-6">Wrtten by <a href="/">@karenyen</a></p>
+                            </div>
+                        </div>
+                        
+                        <div class="content">
+                            <h4><a style="color: #ffc21c" href="/">Book Title</a></h4>
+                        </div>
+
+                        <div class="content">
+                            Content of review.
+                            <br></br>
+                            <time datetime="2016-1-1" style="font-size: 12px;">2021-04-26 11:59PM</time>
+                        </div>
+                    </div>
+                </div>
+
+                <br>
+
+            </div>
+        </section>
+    </div>
+
+    <div class="column is-one-fifth"></div>
+</div>
+
+{% endblock %}
