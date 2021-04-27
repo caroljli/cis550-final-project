@@ -27,6 +27,19 @@ def user_login_view(request):
     else:
         return redirect("/login")
 
+def user_register_view(request):
+    name = request.POST.get("name")
+    username = request.POST.get("username")
+    password = request.POST.get("password")
+    user = User.objects.create(username=username, password=password)
+    user.set_password(password)
+    user.save()
+    BookNookUser.objects.create(user=user, name=name)
+    return redirect('/register_complete')
+
+def register_complete(request):
+    return render(request, "register_complete.html", {})
+
 @login_required
 def logout_view(request):
     logout(request)

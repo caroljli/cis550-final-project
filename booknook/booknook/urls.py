@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from books.views import splash, book_directory
-from user.views import profile, timeline, user_login, user_login_view, logout_view
+from user.views import profile, timeline, user_login, user_login_view, logout_view, register_complete, user_register, user_register_view
 
 urlpatterns = [
     # general
@@ -32,5 +32,8 @@ urlpatterns = [
     # user auth
     path('user_login_view/', user_login_view, name="user_login_view"),
     path('login/', user_login, name="login"),
+    path('register/', user_register, name="user_register"),
+    path('register_view/', user_register_view, name="user_register_view"),
+    path('register_complete/', register_complete, name="register_complete"),
 
 ]

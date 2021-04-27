@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="columns">
+    <div class="column is-one-third"></div>
+    <div class="column">
+        <h1 class="title">Don't have an account?</h1>
+        <h2 class="subtitle">No worries. It's easy to get started with BookNook.</h2>
+        </br>
+
+        <div class="box">
+            <form method="POST" action="/register_view/">
+                {% csrf_token %}
+                <div class="field">
+                    <label class="label">Full Name</label>
+                    <div class="control">
+                      <input name="name" class="input" placeholder="eg. Carol Li">
+                    </div>
+                </div>
+                  
+                <div class="field">
+                    <label class="label">Username</label>
+                    <div class="control has-icons-left has-icons-right">
+                      <input name="username" class="input" placeholder="eg. saltyfugu">
+                      <span class="icon is-small is-left">
+                        <i class="fas fa-user"></i>
+                      </span>
+                    </div>
+                </div>
+                  
+                <!-- <div class="field">
+                    <label class="label">Email</label>
+                    <div class="control has-icons-left has-icons-right">
+                      <input name="email" class="input" placeholder="eg. saltyfugu@yolp.io">
+                      <span class="icon is-small is-left">
+                        <i class="fas fa-envelope"></i>
+                      </span>
+                    </div>
+                </div> -->
+
+                <div class="field">
+                    <label class="label">Password</label>
+                    <div class="control">
+                      <input name="password" class="input" type="password">
+                    </div>
+                </div>
+<!-- 
+                <div class="field">
+                    <label class="label">School</label>
+                    <div class="control">
+                        <input name="school" class="input" placeholder="eg. University of Pennsylvania">
+                    </div>
+                </div>
+                
+                <div class="field">
+                    <label class="label">Bio</label>
+                    <div class="control">
+                      <textarea name="bio" class="textarea" placeholder="eg. I like cats!"></textarea>
+                    </div>
+                </div>
+
+                <div class="field">
+                  <label class="label">Picture</label>
+                  <div class="control">
+                    <textarea name="picture" class="input" placeholder="eg. http://google.com!"></textarea>
+                  </div>
+                </div> -->
+                  
+                <div class="buttons has-addons is-centered">
+                    <input type="submit" value="Submit" class="button is-info" style="font-family: Avenir; font-weight: 600;"></input>
+                    <a href="/" 
+                        class="button is-light">
+                        <strong>Cancel</strong>
+                    </a>
+                </div>
+            </form>
+        </div>
+
+    </div>
+    <div class="column is-one-third"></div>
+</div>
+
+{% endblock %}
