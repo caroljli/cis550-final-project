@@ -16,9 +16,11 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from books.views import splash, book_directory
+from user.views import profile
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', splash, name="splash"),
-    path('books', book_directory, name="books")
+    path('books/', book_directory, name="books"),
+    path('profile/', profile, name="profile"),
 ]

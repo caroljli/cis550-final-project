@@ -1,0 +1,101 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<section class="hero is-warning">
+    <div class="hero-body">
+      <div class="container">
+        <h1 class="title">
+            Kim Soo Hyung
+        </h1>
+        <h2 class="subtitle">
+          @soohyung
+        </h2>
+      </div>
+    </div>
+</section>
+
+<div class="columns">
+    <div class="column is-one-fifth"></div>
+    <div class="column is-one-quarter">
+        <section class="section">
+            <div class="container">
+                <h2 class="title is-4">About Kim Soo Hyung</h2>
+                <h3 class="subtitle is-5">28 // Seoul, South Korea</h3>
+                <!-- {% if student.picture_is_not_null %}
+                <figure class="image">
+                    <img src="{{ student.picture }}">
+                </figure>
+                {% endif %} -->
+                <br>
+
+                <div class="notification is-light">
+                  I like cats.
+                </div>
+
+                <h2 class="title is-5">Following</h2>
+
+                <!-- {% for follow in follows %} -->
+
+                <div class="notification is-warning">
+                    <strong>Karen Yen</strong>
+                    <p>20 // Taiwan</p>
+                </div>
+
+                <!-- {% endfor %} -->
+
+            </div>
+        </section>
+    </div>
+    <div class="column">
+        <section class="section">
+            <div class="container">
+                <h2 class="title is-4">Recent Activity</h2>
+                <h3 class="subtitle is-5">Read Kim Soo Hyung's recent reviews.</h3>
+
+                <!-- {% for review in reviews %} -->
+
+                <div class="card">
+                    <!-- {% if review.picture_is_not_null %}
+                    <div class="card-image">
+                        <figure class="image is-4by3">
+                            <img src="{{ review.picture }}">
+                        </figure>
+                    </div>
+                    {% endif %} -->
+                    <div class="card-content">
+                        <div class="media">
+                            <!-- <div class="media-left">
+                                <figure class="image is-48x48">
+                                    <img src="{{ review.get_user_picture }}">
+                                </figure>
+                            </div> -->
+                            <div class="media-content">
+                                <p class="title is-4">Review Title</p>
+                                <p class="subtitle is-6"><a href="/">@soohyung</a></p>
+                            </div>
+                        </div>
+                        
+                        <div class="content">
+                            <h3>Title<a style="color: #ffc21c" href="/">Book Title</a></h3>
+                        </div>
+
+                        <div class="content">
+                            Content of review.
+                            <br></br>
+                            <time datetime="2016-1-1" style="font-size: 12px;"></time>
+                        </div>
+                    </div>
+                </div>
+
+                <br>
+
+                <!-- {% endfor %} -->
+
+            </div>
+        </section>
+    </div>
+    <div class="column is-one-fifth"></div>
+</div>
+
+{% endblock %}
