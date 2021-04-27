@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from books.models import Book
 
 # logistical
 
@@ -13,4 +14,5 @@ def splash(request):
     return render(request, "splash.html", {})
 
 def book_directory(request):
-    return render(request, "book_directory.html", {})
+    books = Book.objects.all()
+    return render(request, "book_directory.html", {"books": books})
