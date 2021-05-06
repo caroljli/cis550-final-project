@@ -11,6 +11,9 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
 from pathlib import Path
+import cx_Oracle
+import sys
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -38,7 +41,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'user',
-    'books'
+    'books',
+    # 'booknook.python_hol'
 ]
 
 MIDDLEWARE = [
@@ -77,19 +81,25 @@ WSGI_APPLICATION = 'booknook.wsgi.application'
 
 DATABASES = {
     'default': {
-         'ENGINE': 'django.db.backends.sqlite3',
-         'NAME': BASE_DIR / 'db.sqlite3',
-    },
-    'books': {
-        # 'ENGINE': 'django.db.backends.sqlite3',
+        #  'ENGINE': 'django.db.backends.sqlite3',
         # 'NAME': BASE_DIR / 'db.sqlite3',
-         'ENGINE': 'django.db.backends.mysql',
-         'NAME': 'ORCL',
+         'ENGINE': 'django.db.backends.oracle',
+        'NAME': 'ORCL',
          'USER': 'admin',
          'PASSWORD': 'password123',
          'HOST': 'cis550-proj.cjel7pyixr2k.us-east-1.rds.amazonaws.com',
          'PORT': '1521',
-    }
+    },
+    # 'books': {
+        # 'ENGINE': 'django.db.backends.sqlite3',
+        # 'NAME': BASE_DIR / 'db.sqlite3',
+        #  'ENGINE': 'django.db.backends.mysql',
+        #  'NAME': 'ORCL',
+        #  'USER': 'admin',
+        #  'PASSWORD': 'password123',
+        #  'HOST': 'cis550-proj.cjel7pyixr2k.us-east-1.rds.amazonaws.com',
+        #  'PORT': '1521',
+    # }
 }
 
 

@@ -15,4 +15,5 @@ def splash(request):
 
 def book_directory(request):
     books = Book.objects.all()
+    print(books.count)
     return render(request, "book_directory.html", {"books": books})

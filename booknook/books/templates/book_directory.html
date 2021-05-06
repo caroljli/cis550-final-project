@@ -1,3 +1,4 @@
+
 {% extends 'base.html' %}
 {% load static %}
 
@@ -23,6 +24,7 @@
         <br><br>
         <div class="columns is-multiline">
             <!-- add the loop here -->
+            {% for book in books %}
             <div class="column is-one-third">
                 <!-- <div class="notification is-light">
                     <strong>Title</strong>
@@ -31,27 +33,29 @@
                     <a class="button is-small is-dark is-fullwidth" href="/">View</a>
                  </div> -->
                  <div class="card">
-                  <div class="card-image">
+                  <!-- <div class="card-image">
                     <figure class="image is-3by4">
                       <img src="https://static.wikia.nocookie.net/warner-bros-entertainment/images/5/59/Hp6_poster_se.jpg/revision/latest?cb=20161020172951" alt="Placeholder image">
                     </figure>
-                  </div>
+                  </div> -->
                   <div class="card-content">
                     <div class="media">
                       <div class="media-content">
-                        <p class="title is-4">Harry Potter and the Half Blood Prince</p>
-                        <p class="subtitle is-6">J.K. Rowling // 4.57</p>
+                        <p class="title is-4">{{book.title}}</p>
+                        <p class="subtitle is-6">Author(s): {{book.authors}} <br>
+                          Average Rating: {{book.average_rating}}</p>
                       </div>
                     </div>
-                    <div class="content">
+                    <!-- <div class="content">
                         Synopsis: As the Harry Potter sequence draws to a close, Harry's most dangerous adventure yet is just beginning . . . and it starts July 16, 2005.
                         We could tell you, but then we'd have to Obliviate your memory.
                         <br>
-                      </div>
+                      </div> -->
                     </div>
                   </div>
             </div>
             <!-- end the loop here -->
+            {% endfor %}
         </div>
     </div>
 <div class="column is-one-fifth"></div>
