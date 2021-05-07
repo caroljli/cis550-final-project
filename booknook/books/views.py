@@ -21,4 +21,3 @@ def book_directory(request):
     else: 
         results = Book.objects.all()
     return render(request, "book_directory.html", {"books": results})
-    

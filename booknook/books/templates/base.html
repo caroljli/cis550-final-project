@@ -21,7 +21,7 @@
               <img src="https://i.imgur.com/dwjxvsA.png">
             </a>
             
-           
+            {% if user.is_authenticated %}
 
             <a class="navbar-item" href="/timeline">
                 Timeline
@@ -41,7 +41,17 @@
                 </div>
             </div>
 
-           
+            {% else %}
+
+            <a class="navbar-item" href="/login/">
+              Login
+            </a>
+            <a class="navbar-item" href="/register/">
+              Register
+            </a>
+
+
+           {% endif %}
 
         </nav>
 
