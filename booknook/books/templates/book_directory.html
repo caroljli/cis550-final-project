@@ -20,7 +20,10 @@
     <div class="column is-one-fifth"></div>
     <div class="column">
         <br>
-        <input class="input is-rounded" type="text" placeholder="🔎  Search for a book...">
+        <form method="GET" action="{% url 'books' %}">
+          {% csrf_token %}
+          <input name="search_params" class="input is-rounded" type="text" placeholder="🔎  Search for a book...">
+        </form>
         <br><br>
         <div class="columns is-multiline">
             <!-- add the loop here -->

@@ -14,6 +14,11 @@ def splash(request):
     return render(request, "splash.html", {})
 
 def book_directory(request):
-    books = Book.objects.all()
-    print(books.count)
-    return render(request, "book_directory.html", {"books": books})
+    search_params = request.GET.get("search_params")
+    print(search_params)
+    if search_params is not None:
+        results = Book.objects.filter(title__icontains = search_params) | Book.objects.filter(authors__icontains = search_params)
+    else: 
+        results = Book.objects.all()
+    return render(request, "book_directory.html", {"books": results})
+    
