@@ -33,6 +33,16 @@
                 Profile
             </a>
 
+            <div class="navbar-item">
+              <div class="navbar-item">
+                <div class="buttons">
+                  <a class="button is-light is-info" id="newpost_button">
+                    <strong>New Book Review</strong>
+                  </a>
+                </div>
+              </div>
+            </div>
+
             <div class="navbar-end">
                 <div class="navbar-item">
                     <div class=buttons>
@@ -59,6 +69,68 @@
   
         {% endblock %}
 
+        <!-- new post modal -->
+        <div class="modal" id="newpost_modal">
+          <div class="modal-background"></div>
+          <div class="modal-card">
+            <header class="modal-card-head">
+              <p class="modal-card-title">New Book Review</p>
+              <button class="delete" aria-label="close" id="newpost_close_modal"></button>
+            </header>
+            <section class="modal-card-body">
+              <form method="POST" action="/new_review/">
+                {% csrf_token %}
+                  <div class="field">
+                    <label class="label">Title <a style="color: red">*</a></label>
+                    <div class="control">
+                      <input name="review_title" class="input" placeholder="eg. Pachinko">
+                    </div>
+                  </div>
+
+                  <div class="field">
+                    <label class="label">Book</label>
+                    <div class="control">
+                        <div class="select" name="restaurant">
+                        <select name="restaurant">
+                            {% for book in books %}
+                            <option value="{{ restaurant.restaurant_name }}">{{ book.title }}</option>
+                            {% endfor %}
+                        </select>
+                        </div>
+                    </div>
+                  </div>
+
+                  <div class="field">
+                      <label class="label">Content <a style="color: red">*</a></label>
+                      <div class="control">
+                        <input name="review_body" class="textarea" placeholder="e.g. I thought this book was super cool!">
+                      </div>
+                  </div>
+
+                  <div class="buttons has-addons is-centered">
+                    <input type="submit" value="Post Review" class="button is-info" style="font-family: Avenir; font-weight: 600"></input>
+                  </div>
+              </form>
+              <p><a style="color: red">*</a> Required Fields</p>
+            </section>
+          </div>
+        </div>
+
     </body>
+
+    <script>
+      // new post modal
+      var modal = document.getElementById("newpost_modal")
+      var button = document.getElementById("newpost_button")
+      var close_modal = document.getElementById("newpost_close_modal")
+    
+      button.onclick = function() {
+        modal.style.display="flex";
+      }
+    
+      close_modal.onclick = function() {
+        modal.style.display="none";
+      }
+    </script>
   
   </html>

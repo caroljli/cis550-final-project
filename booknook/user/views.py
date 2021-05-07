@@ -1,14 +1,17 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login as auth_login, logout
 from django.contrib.auth.models import User
-from user.models import BookNookUser
+from user.models import BookNookUser, BookReview
+from books.models import Book
 from django.contrib.auth.decorators import login_required
 
 def profile(request):
     return render(request, "profile.html", {})
 
 def timeline(request):
-    return render(request, "timeline.html", {})
+    reviews = BookReview.objects.all()
+    books = Book.objects.all()
+    return render(request, "timeline.html", {reviews: reviews, books: books})
 
 def user_login(request):
     return render(request, "user_login.html", {})
@@ -28,6 +31,7 @@ def user_login_view(request):
         return redirect("/login")
 
 def user_register_view(request):
+    # TODO: add duplicate control (carol)
     name = request.POST.get("name")
     username = request.POST.get("username")
     password = request.POST.get("password")
