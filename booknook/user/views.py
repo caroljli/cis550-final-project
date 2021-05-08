@@ -5,17 +5,22 @@ from user.models import BookNookUser, BookReview
 from books.models import Book
 from django.contrib.auth.decorators import login_required
 from datetime import datetime
+from random import random
 
 def profile(request):
-    return render(request, "profile.html", {})
+    user = request.user
+    bnuser = BookNookUser.objects.get(ID=user.id)
+    return render(request, "profile.html", {"bnuser": bnuser, "user": user})
 
 def timeline(request):
     # reviews = BookReview.objects.all()
     books = Book.objects.all()
     user = request.user
+    print(user.id)
+    bnuser = BookNookUser.objects.get(ID=user.id)
     # booknookuser = BookNookUser.objects.get(user=request.user) 
     # TODO: change to booknookuser when the db migration is applied in templates as well
-    return render(request, "timeline.html", {"books": books, "user": user})
+    return render(request, "timeline.html", {"books": books, "user": user, "bnuser": bnuser})
     # TODO: add booknookuser, reviews to render
 
 def user_login(request):
@@ -43,7 +48,7 @@ def user_register_view(request):
     userObj = User.objects.create(username=username, password=password)
     userObj.set_password(password)
     userObj.save()
-    booknook_user = BookNookUser.objects.create(ID=0, name=name)
+    booknook_user = BookNookUser.objects.create(ID=userObj.id, name=name)
     booknook_user.save()
     return redirect('/register_complete')
 
@@ -57,19 +62,20 @@ def logout_view(request):
 
 
 def new_review(request):
+    user = request.user
+    id = random()
     title = request.POST.get("review_title")
-    #user=User.objects.create(username="t", password="t")
-    username = request.user.username
-    author = username
-    book_title = request.POST.get("book_title")
+    title = request.POST.get("book_title")
+    author = BookNookUser.objects.get(ID=user.id)
+    book = Book.objects.get(title=title)
     time = datetime.now()
     review_content = request.POST.get("review_body")
-    review = BookReview.objects.create(title=title, author = author, book_title = book_title, time = time, review_content = review_content)
+    review = BookReview.objects.create(review_id=id, title=title, author=author, book_title=book, time=time, review_content=review_content)
     review.save()
     
-    reviews = BookReview.objects.all()
+    reviews = BookReview.objects.get(book_title=book)
     books = Book.objects.all()
 
-    return render(request, 'timeline.html', {reviews: reviews, books: books})
+    return render(request.META['HTTP_REFERER'], {reviews: reviews, books: books})
 
 

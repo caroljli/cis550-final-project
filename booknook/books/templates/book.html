@@ -9,8 +9,11 @@
             {{ book.title }}
         </h1>
         <h2 class="subtitle">
-          {{ book.authors }}
+          <strong style="color: #80BDFE">{{ book.authors }}</strong> • {{ book.rating }}
         </h2>
+
+        <button class="button" id="bookpost_button"><strong>Review Book</strong></button>
+        <button class="button"><strong>Follow</strong></button>
       </div>
     </div>
 </section>
@@ -68,5 +71,65 @@
 
     <div class="column is-one-fifth"></div>
 </div>
+
+<!-- new post modal -->
+<div class="modal" id="bookpost_modal">
+    <div class="modal-background"></div>
+    <div class="modal-card">
+      <header class="modal-card-head">
+        <p class="modal-card-title">New Book Review</p>
+        <button class="delete" aria-label="close" id="book_close_modal"></button>
+      </header>
+      <section class="modal-card-body">
+        <form method="POST" action="/new_review/">
+          {% csrf_token %}
+            <div class="field">
+              <label class="label">Title of Review<a style="color: red">*</a></label>
+              <div class="control">
+                <input name="review_title" class="input" placeholder="eg. Pachinko">
+              </div>
+            </div>
+
+            <div class="field">
+              <label class="label">Book <a style="color: red">*</a></label>
+              <div class="control">
+                  <div class="select" name="book_title">
+                    <select name="book_title">
+                        <option value="{{ book.title }}">{{ book.title }}</option>
+                    </select>
+                  </div>
+              </div>
+            </div>
+
+            <div class="field">
+                <label class="label">Content <a style="color: red">*</a></label>
+                <div class="control">
+                  <input name="review_body" class="textarea" placeholder="e.g. I thought this book was super cool!">
+                </div>
+            </div>
+
+            <div class="buttons has-addons is-centered">
+              <input type="submit" value="Post Review" class="button is-info" style="font-family: Avenir; font-weight: 600"></input>
+            </div>
+        </form>
+        <p><a style="color: red">*</a> Required Fields</p>
+      </section>
+    </div>
+</div>
+
+  <script>
+    // new post modal for individual book
+    var book_modal = document.getElementById("bookpost_modal")
+    var book_button = document.getElementById("bookpost_button")
+    var book_close_modal = document.getElementById("book_close_modal")
+  
+    book_button.onclick = function() {
+      book_modal.style.display="flex";
+    }
+  
+    book_close_modal.onclick = function() {
+      book_modal.style.display="none";
+    }
+  </script>
 
 {% endblock %}
