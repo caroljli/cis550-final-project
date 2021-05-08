@@ -21,16 +21,15 @@
     <div class="column is-one-fifth"></div>
     <div class="column">
         <br>
+        <a class="button" href="/authors">Get Top 10 Authors</a>
+        <a class="button" href="/mostreviews">Get Top 10 Most-Reviewed Books</a>
+
+        <br/><br/>
+
         <form method="GET" action="{% url 'books' %}">
           {% csrf_token %}
           <input name="search_params" class="input is-rounded" type="text" placeholder="🔎  Search for a book...">
         </form>
-
-        <a class="btn btn-primary" href="/authors">Get Top 10 Authors</a>
-
-        <br></br>
-
-        <a class="btn btn-primary" href="/mostreviews">Get Top 10 Most-Reviewed Books</a>
 
         <form method="GET" action="{% url 'books' %}">
           {% csrf_token %}
@@ -52,16 +51,16 @@
                   <div class="media">
                     <div class="media-content">
                       <p class="title is-4">
-                        <a href="{% url 'book' book.id %}" style="color: black; cursor: pointer">{{ book.title }}</a>
+                        <a href="{% url 'book' book.id %}" style="color: black; cursor: pointer"><strong>{{ book.title }}</strong></a>
                       </p>
                       <!-- <p class="subtitle is-6">@johnsmith</p> -->
 
                     </div>
                   </div>
                   <div class="content">
-                    <a style="cursor: default; color: #80BDFE"><strong>Average Rating:</strong></a> {{ book.authors }}
+                    <a style="cursor: default; color: #80BDFE"><strong>Author:</strong></a> {{ book.authors }}
                     <br/>
-                    <a style="cursor: default; color: #80BDFE"><strong>Average Rating:</strong></a> {{ book.average_rating }}
+                    <a style="cursor: default; color: #80BDFE"><strong>Rating:</strong></a> {{ book.rating }}
                   </div>
                 </div>
               </div>

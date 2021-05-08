@@ -6,10 +6,10 @@
     <div class="hero-body">
       <div class="container">
         <h1 class="title">
-            Kim Soo Hyung
+            {{ bnuser.name }}
         </h1>
         <h2 class="subtitle">
-          @soohyung
+          @{{ user.username }}
         </h2>
       </div>
     </div>
@@ -20,8 +20,8 @@
     <div class="column is-one-quarter">
         <section class="section">
             <div class="container">
-                <h2 class="title is-4">About Kim Soo Hyung</h2>
-                <h3 class="subtitle is-5">28 // Seoul, South Korea</h3>
+                <h2 class="title is-4">About {{ bnuser.name }}</h2>
+                <!-- <h3 class="subtitle is-5">28 // Seoul, South Korea</h3> -->
                 <!-- {% if student.picture_is_not_null %}
                 <figure class="image">
                     <img src="{{ student.picture }}">
@@ -62,7 +62,7 @@
         <section class="section">
             <div class="container">
                 <h2 class="title is-4">Recent Activity</h2>
-                <h3 class="subtitle is-5">Read Kim Soo Hyung's recent reviews.</h3>
+                <h3 class="subtitle is-5">Read {{ bnuser.name }}'s Recent Reviews.</h3>
 
                 <div class="card">
                     <!-- {% if review.picture_is_not_null %}
