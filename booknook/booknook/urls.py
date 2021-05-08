@@ -18,6 +18,7 @@ from django.urls import path
 from books.views import splash, book_directory, authors, mostreviews
 from user.views import profile, timeline, user_login, user_login_view, logout_view, register_complete, user_register, user_register_view
 
+
 urlpatterns = [
     # general
     path('admin/', admin.site.urls),
@@ -38,4 +39,6 @@ urlpatterns = [
     path('register_view/', user_register_view, name="user_register_view"),
     path('register_complete/', register_complete, name="register_complete"),
 
+    # user book reviews
+    path('new_review/', new_review, name="new_review"),
 ]

@@ -90,10 +90,10 @@
                   <div class="field">
                     <label class="label">Book</label>
                     <div class="control">
-                        <div class="select" name="restaurant">
-                        <select name="restaurant">
+                        <div class="select" name="book_title">
+                        <select name="book_title">
                             {% for book in books %}
-                            <option value="{{ restaurant.restaurant_name }}">{{ book.title }}</option>
+                            <option value="{{ book.title }}">{{ book.title }}</option>
                             {% endfor %}
                         </select>
                         </div>
