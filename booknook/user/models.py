@@ -5,7 +5,8 @@ from django import template
 from books.models import Book
 
 class BookNookUser(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    ID = models.IntegerField()
+    # userObj = models.OneToOneField(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=200)
     # bio = models.TextField(null=True)
     # time = models.DateTimeField(auto_now=True, null=True)
