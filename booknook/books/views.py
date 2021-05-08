@@ -37,3 +37,7 @@ def book_directory(request):
 def authors(request):
      results = BestBook.objects.raw('SELECT author as ID FROM BESTSELLERS GROUP BY author ORDER BY COUNT(author) DESC FETCH first 10 rows only')
      return render(request, "authors.html", {"authors" : results})
+
+def mostreviews(request):
+     results = BestBook.objects.raw('SELECT DISTINCT b.name as ID FROM BESTSELLERS b ORDER BY b.reviews DESC FETCH FIRST 10 rows only')
+     return render(request, "mostreviews.html", {"reviews" : results})

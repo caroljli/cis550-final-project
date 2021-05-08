@@ -25,7 +25,9 @@
           <input name="search_params" class="input is-rounded" type="text" placeholder="🔎  Search for a book...">
         </form>
 
-        <a class="btn btn-primary" href="/authors">Get top 10 Authors</a>
+        <a class="btn btn-primary" href="/authors">Get Top 10 Authors</a>
+
+        <a class="btn btn-primary" href="/mostreviews">Get Top 10 Most-Reviewed Books</a>
 
         <form method="GET" action="{% url 'books' %}">
           {% csrf_token %}
