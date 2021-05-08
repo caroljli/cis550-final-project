@@ -15,6 +15,7 @@ class BestBook(models.Model):
     title = models.CharField(max_length=100)
     authors = models.CharField(max_length=900)
     rating = models.IntegerField()
+    genre = models.CharField(max_length=100)
     class Meta:
         db_table = "BESTSELLERS"
     
