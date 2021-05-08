@@ -19,6 +19,7 @@ def book_directory(request):
     print(search_params)
 
     authors_params = request.GET.get("authors_params")
+    print(authors_params)
 
     # if authors_params:
     #     print("yes")
@@ -28,8 +29,8 @@ def book_directory(request):
 
     if search_params is not None:
         results = Book.objects.filter(title__icontains = search_params) | Book.objects.filter(authors__icontains = search_params)
-    # elif authors_params is not None:
-    #     results = BestBook.objects.raw('SELECT b.name FROM BESTSELLERS b WHERE b.author = ${authors_params}')
+    elif authors_params is not None:
+        results = BestBook.objects.raw('SELECT * FROM BESTSELLERS WHERE author = ${authors_params}')
     else: 
         results = Book.objects.all()
     return render(request, "book_directory.html", {"books": results}) 
