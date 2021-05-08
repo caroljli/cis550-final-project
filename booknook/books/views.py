@@ -21,3 +21,11 @@ def book_directory(request):
     else: 
         results = Book.objects.all()
     return render(request, "book_directory.html", {"books": results})
+
+def book(request, url=None):
+    if Book.objects.get(title=url):
+        book = Book.objects.get(id=url)
+        # TODO: filter for book reviews
+        return render(request, "book.html", {"book": book})
+    else:
+        return render("404: book not found")

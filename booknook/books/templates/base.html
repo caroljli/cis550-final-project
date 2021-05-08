@@ -23,22 +23,24 @@
             
             {% if user.is_authenticated %}
 
-            <a class="navbar-item" href="/timeline">
-                Timeline
-            </a>
-            <a class="navbar-item" href="/books">
-                Book Directory
-            </a>
-            <a class="navbar-item" href="/profile">
-                Profile
-            </a>
+            <div class="navbar-start">
+              <a class="navbar-item" href="/timeline">
+                  Timeline
+              </a>
+              <a class="navbar-item" href="/books">
+                  Book Directory
+              </a>
+              <a class="navbar-item" href="/profile">
+                  Profile
+              </a>
 
-            <div class="navbar-item">
               <div class="navbar-item">
-                <div class="buttons">
-                  <a class="button is-light is-info" id="newpost_button">
-                    <strong>New Book Review</strong>
-                  </a>
+                <div class="navbar-item">
+                  <div class="buttons">
+                    <a class="button is-light is-info" id="newpost_button">
+                      <strong>New Book Review</strong>
+                    </a>
+                  </div>
                 </div>
               </div>
             </div>
@@ -52,14 +54,14 @@
             </div>
 
             {% else %}
-
-            <a class="navbar-item" href="/login/">
-              Login
-            </a>
-            <a class="navbar-item" href="/register/">
-              Register
-            </a>
-
+            <div class="navbar-start">
+              <a class="navbar-item" href="/login/">
+                Login
+              </a>
+              <a class="navbar-item" href="/register/">
+                Register
+              </a>
+            </div>
 
            {% endif %}
 
@@ -88,7 +90,7 @@
                   </div>
 
                   <div class="field">
-                    <label class="label">Book</label>
+                    <label class="label">Book <a style="color: red">*</a></label>
                     <div class="control">
                         <div class="select" name="book_title">
                         <select name="book_title">

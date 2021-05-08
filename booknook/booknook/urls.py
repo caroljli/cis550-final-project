@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from books.views import splash, book_directory
+from books.views import splash, book_directory, book
 from user.views import profile, timeline, user_login, user_login_view, logout_view, register_complete, user_register, user_register_view, new_review
 
 urlpatterns = [
@@ -25,7 +25,6 @@ urlpatterns = [
     path('logout_view/', logout_view, name="logout_view"),
 
     # user pages
-    path('books/', book_directory, name="books"),
     path('profile/', profile, name="profile"),
     path('timeline/', timeline, name="timeline"),
 
@@ -38,4 +37,8 @@ urlpatterns = [
 
     # user book reviews
     path('new_review/', new_review, name="new_review"),
+
+    # book pages
+    path('books/', book_directory, name="books"),
+    path('book/<slug:url>', book, name="book")
 ]

@@ -10,9 +10,13 @@ def profile(request):
     return render(request, "profile.html", {})
 
 def timeline(request):
-    reviews = BookReview.objects.all()
+    # reviews = BookReview.objects.all()
     books = Book.objects.all()
-    return render(request, "timeline.html", {reviews: reviews, books: books})
+    user = request.user
+    # booknookuser = BookNookUser.objects.get(user=request.user) 
+    # TODO: change to booknookuser when the db migration is applied in templates as well
+    return render(request, "timeline.html", {"books": books, "user": user})
+    # TODO: add booknookuser, reviews to render
 
 def user_login(request):
     return render(request, "user_login.html", {})
