@@ -26,12 +26,12 @@ def book_directory(request):
     #     results = BestBook.objects.all()
     #     return redirect("/authors.html", {"authors": results})
 
-
+    results = Book.objects.all()
     if search_params is not None:
         results = Book.objects.filter(title__icontains = search_params) | Book.objects.filter(authors__icontains = search_params)
     elif authors_params is not None:
-        results = BestBook.objects.filter(authors__icontains = authors_params)
-        #results = BestBook.objects.raw('SELECT * FROM BESTSELLERS WHERE author = :authors_params', [authors_params])
+        param_dict = { "param": authors_params }
+        results = BestBook.objects.raw('SELECT DISTINCT * FROM BESTSELLERS b WHERE b.authors = %(param)s', param_dict)
     else: 
         results = Book.objects.all()
     return render(request, "book_directory.html", {"books": results}) 
