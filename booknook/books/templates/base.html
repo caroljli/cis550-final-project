@@ -20,50 +20,51 @@
             <a class="navbar-item" href="/">
               <img src="https://i.imgur.com/dwjxvsA.png">
             </a>
+          </div>
             
-            {% if user.is_authenticated %}
+          {% if user.is_authenticated %}
 
-            <div class="navbar-start">
-              <a class="navbar-item" href="/timeline">
-                  Timeline
-              </a>
-              <a class="navbar-item" href="/books">
-                  Book Directory
-              </a>
-              <a class="navbar-item" href="/profile">
-                  Profile
-              </a>
+          <div class="navbar-start">
+            <a class="navbar-item" href="/timeline">
+                Timeline
+            </a>
+            <a class="navbar-item" href="/books">
+                Book Directory
+            </a>
+            <a class="navbar-item" href="/profile">
+                Profile
+            </a>
 
+            <div class="navbar-item">
               <div class="navbar-item">
-                <div class="navbar-item">
-                  <div class="buttons">
-                    <a class="button is-light is-info" id="newpost_button">
-                      <strong>New Book Review</strong>
-                    </a>
-                  </div>
+                <div class="buttons">
+                  <a class="button is-light is-info" id="newpost_button">
+                    <strong>New Book Review</strong>
+                  </a>
                 </div>
               </div>
             </div>
+          </div>
 
-            <div class="navbar-end">
-                <div class="navbar-item">
-                    <div class=buttons>
-                        <a class="button is-light" href="/logout_view/"><strong>Logout</strong></a>
-                    </div>
+          <div class="navbar-end">
+            <div class="navbar-item">
+                <div class=buttons>
+                    <a class="button is-light" href="/logout_view/"><strong>Logout</strong></a>
                 </div>
             </div>
+          </div>
 
-            {% else %}
-            <div class="navbar-start">
-              <a class="navbar-item" href="/login/">
-                Login
-              </a>
-              <a class="navbar-item" href="/register/">
-                Register
-              </a>
-            </div>
+          {% else %}
+          <div class="navbar-start">
+            <a class="navbar-item" href="/login/">
+              Login
+            </a>
+            <a class="navbar-item" href="/register/">
+              Register
+            </a>
+          </div>
 
-           {% endif %}
+          {% endif %}
 
         </nav>
 
