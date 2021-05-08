@@ -37,6 +37,11 @@
           <input name="authors_params" class="input is-rounded" type="text" placeholder="🔎  Enter an author to get their top 10 books...">
         </form>
 
+        <form method="GET" action="{% url 'books' %}">
+          {% csrf_token %}
+          <input name="genre_params" class="input is-rounded" type="text" placeholder="🔎  Enter a genre to see the top 10 books for that genre...">
+        </form>
+
         <br><br>
         <div class="columns is-multiline">
             <!-- add the loop here -->
