@@ -6,9 +6,17 @@ class Book(models.Model):
     ID = models.IntegerField()
     title = models.CharField(max_length=100)
     authors = models.CharField(max_length=800)
-    average_rating = models.IntegerField()
+    rating = models.IntegerField()
     class Meta:
         db_table = "BOOKS_EXTENSIVE"
+    
+class BestBook(models.Model):
+    ID = models.IntegerField()
+    title = models.CharField(max_length=100)
+    authors = models.CharField(max_length=900)
+    rating = models.IntegerField()
+    class Meta:
+        db_table = "BESTSELLERS"
     
     
     # authors = models.CharField(max_length=900)

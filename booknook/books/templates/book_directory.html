@@ -25,6 +25,18 @@
           {% csrf_token %}
           <input name="search_params" class="input is-rounded" type="text" placeholder="🔎  Search for a book...">
         </form>
+
+        <a class="btn btn-primary" href="/authors">Get Top 10 Authors</a>
+
+        <br></br>
+
+        <a class="btn btn-primary" href="/mostreviews">Get Top 10 Most-Reviewed Books</a>
+
+        <form method="GET" action="{% url 'books' %}">
+          {% csrf_token %}
+          <input name="authors_params" class="input is-rounded" type="text" placeholder="🔎  Enter an author to get their top 10 books...">
+        </form>
+
         <br><br>
         <div class="columns is-multiline">
             <!-- add the loop here -->
@@ -38,9 +50,9 @@
                         <a href="{% url 'book' book.id %}" style="color: black; cursor: pointer">{{ book.title }}</a>
                       </p>
                       <!-- <p class="subtitle is-6">@johnsmith</p> -->
+
                     </div>
                   </div>
-
                   <div class="content">
                     <a style="cursor: default; color: #80BDFE"><strong>Average Rating:</strong></a> {{ book.authors }}
                     <br/>
