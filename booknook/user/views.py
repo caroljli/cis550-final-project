@@ -12,6 +12,7 @@ from django.http import HttpResponseRedirect
 
 def profile(request):
     logged_in = True
+    url = None
     try: 
         user = SocialAccount.objects.get(user=request.user)
         user_id = user.user.id
@@ -23,7 +24,7 @@ def profile(request):
     bnuser = BookNookUser.objects.filter(ID=user_id).first()
     reviews = BookReview.objects.filter(author=user_id)
     print(user_id)
-    return render(request, "profile.html", {"bnuser": bnuser, "user": user, "logged_in": logged_in, "username": username, "reviews": reviews})
+    return render(request, "profile.html", {"url": url, "bnuser": bnuser, "user": user, "logged_in": logged_in, "username": username, "reviews": reviews})
 
 def user_profile(request, url=None):
     logged_in = True
@@ -32,7 +33,7 @@ def user_profile(request, url=None):
     username = user.username
     reviews = BookReview.objects.filter(author=url)
     print(url)
-    return render(request, "profile.html", {"bnuser": bnuser, "user": user, "logged_in": logged_in, "username": username, "reviews": reviews})
+    return render(request, "profile.html", {"url": url, "bnuser": bnuser, "user": user, "logged_in": logged_in, "username": username, "reviews": reviews})
 
 def timeline(request):
     # reviews = BookReview.objects.all()
@@ -99,11 +100,12 @@ def new_review(request):
     title = request.POST.get("review_title")
     book_title = request.POST.get("book_title")
     print(book_title)
+    author_name = BookNookUser.objects.filter(ID=user.id).first().name
     author = BookNookUser.objects.filter(ID=user.id).first().ID
     book_id = Book.objects.get(title=book_title).ID
     time = datetime.now()
     review_content = request.POST.get("review_body")
-    review = BookReview.objects.create(ID=review_id, title=title, author=author, book_title=book_id, time=time, review_content=review_content)
+    review = BookReview.objects.create(ID=review_id, title=title, author=author, book_title=book_id, time=time, review_content=review_content, book_name=book_title, author_name=author_name)
     review.save()
     
     # reviews = BookReview.objects.get(book_title=book_id)

@@ -20,6 +20,8 @@ class BookReview(models.Model):
     title = models.TextField()
     # author = models.ForeignKey(BookNookUser, on_delete=models.CASCADE)
     author = models.IntegerField()
+    book_name = models.CharField(max_length=200)
+    author_name = models.CharField(max_length=200)
     #author = models.CharField(max_length=200)
     # book = models.ForeignKey(Book, on_delete=models.CASCADE)
     book_title = models.IntegerField()
