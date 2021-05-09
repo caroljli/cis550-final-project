@@ -6,7 +6,7 @@ from books.models import Book
 from allauth.socialaccount.models import SocialAccount
 from django.contrib.auth.decorators import login_required
 from datetime import datetime
-from random import random
+import random
 from django.core.exceptions import ObjectDoesNotExist
 
 def profile(request):
@@ -92,14 +92,15 @@ def logout_view(request):
 
 def new_review(request):
     user = request.user
-    # review_id = random()
+    review_id = random.randint(1,1000)
+    print(review_id)
     title = request.POST.get("review_title")
     book_title = request.POST.get("book_title")
     author = BookNookUser.objects.get(ID=user.id).ID
     book_id = Book.objects.get(title=book_title).ID
     time = datetime.now()
     review_content = request.POST.get("review_body")
-    review = BookReview.objects.create(title=title, author=author, book_title=book_id, time=time, review_content=review_content)
+    review = BookReview.objects.create(ID=review_id, title=title, author=author, book_title=book_id, time=time, review_content=review_content)
     review.save()
     
     # reviews = BookReview.objects.get(book_title=book_id)
