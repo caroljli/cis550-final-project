@@ -4,16 +4,6 @@ from user.models import BookReview
 
 # logistical
 
-def splash(request):
-    # if request.user.is_authenticated:
-    #     if Student.objects.filter(user=request.user).count() > 0:
-    #         return redirect("/student_home")
-    #     else:
-    #         return redirect("/restaurant_home")
-    # else:
-	    # return render(request, "splash.html", {})
-    return render(request, "splash.html", {})
-
 def book_directory(request):
     logged_in = True
     search_params = request.GET.get("search_params")

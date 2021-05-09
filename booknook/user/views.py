@@ -10,6 +10,25 @@ import random
 from django.core.exceptions import ObjectDoesNotExist
 from django.http import HttpResponseRedirect
 
+def splash(request):
+    if request.user.is_authenticated:
+        books = Book.objects.all()
+        logged_in = True
+        try: 
+            user = SocialAccount.objects.get(user=request.user)
+            user_id = user.user.id
+            name = user.extra_data.get('name')
+            bio = "I am a Google user!"
+            bnuser = BookNookUser.objects.create(ID=user_id, name=name, bio=bio)
+        except ObjectDoesNotExist:
+            user = request.user
+            bnuser = BookNookUser.objects.get(ID=user.id)
+        reviews = BookReview.objects.all()
+        return render(request, "timeline.html", {"books": books, "user": user, "bnuser": bnuser, "logged_in": logged_in, "reviews": reviews})
+    else:
+	    return render(request, "splash.html", {})
+    # return render(request, "splash.html", {})
+
 def profile(request):
     logged_in = True
     url = None
@@ -23,9 +42,14 @@ def profile(request):
         username = user.username
     bnuser = BookNookUser.objects.filter(ID=user_id).first()
     reviews = BookReview.objects.filter(author=user_id)
-    followers = UserFollowers.objects.filter(id=user_id)
+    followers = UserFollowers.objects.filter(ID=user_id)
+    following = UserFollowers.objects.filter(follower_id=user_id)
+    followers_length = len(followers)
+    following_length = len(following)
     print(user_id)
-    return render(request, "profile.html", {"url": url, "bnuser": bnuser, "user": user, "logged_in": logged_in, "username": username, "reviews": reviews, "followers": followers})
+    print(followers_length)
+    print(following_length)
+    return render(request, "profile.html", {"url": url, "bnuser": bnuser, "user": user, "logged_in": logged_in, "username": username, "reviews": reviews, "followers": followers, "following": following, "followers_length": followers_length, "following_length": following_length})
 
 def user_profile(request, url=None):
     logged_in = True
@@ -33,8 +57,14 @@ def user_profile(request, url=None):
     user = User.objects.get(id=url)
     username = user.username
     reviews = BookReview.objects.filter(author=url)
+    followers = UserFollowers.objects.filter(ID=url)
+    following = UserFollowers.objects.filter(follower_id=url)
+    followers_length = len(followers)
+    following_length = len(following)
     print(url)
-    return render(request, "profile.html", {"url": url, "bnuser": bnuser, "user": user, "logged_in": logged_in, "username": username, "reviews": reviews})
+    print(followers_length)
+    print(following_length)
+    return render(request, "profile.html", {"url": url, "bnuser": bnuser, "user": user, "logged_in": logged_in, "username": username, "reviews": reviews, "followers": followers, "following": following, "followers_length": followers_length, "following_length": following_length})
 
 def timeline(request):
     # reviews = BookReview.objects.all()
@@ -117,12 +147,12 @@ def follow_user(request, url=None):
 
     user = request.user
     bnfollower = BookNookUser.objects.filter(ID=user.id).first()
-    # if 'follow_user' in request.POST:
-    to_follow = BookNookUser.objects.get(ID=request.POST.get('follow_user'))
-    UserFollowers.objects.create(ID=to_follow.ID, name=to_follow.name, follower_id=bnfollower.ID, follower_name=bnfollower.name)
-    print(bnfollower.name)
+    if 'follow_user' in request.POST:
+        to_follow = BookNookUser.objects.get(ID=request.POST.get('follow_user'))
+        UserFollowers.objects.create(ID=to_follow.ID, name=to_follow.name, follower_id=bnfollower.ID, follower_name=bnfollower.name)
+        print(bnfollower.name)
     # TODO: unfollow handling
-    # else:
-    #     to_unfollow = BookNookUser.objects.get(ID=request.POST.get('unfollow_user'))
-    #     UserFollowers.objects.filter(ID=bnfollower.ID).delete()
-    return HttpResponseRedirect(request.path_info)
+    else:
+        to_unfollow = BookNookUser.objects.get(ID=request.POST.get('unfollow_user'))
+        UserFollowers.objects.filter(ID=bnfollower.ID).delete()
+    return redirect('/profile')

@@ -22,6 +22,17 @@
                 </button>
             </div>
         </form>
+
+
+<!-- 
+        <form method="POST" action="/follow_user/">
+            {% csrf_token %}
+            <div class="buttons">
+                <button class="button is-light is-info" style="font-family: Avenir" type="submit" name='unfollow_user' value='{{ url }}'>
+                    <strong>Unfollow</strong>
+                </button>
+            </div>
+        </form>  -->
         <!-- <button class="button is-light is-info"><strong>Follow</strong></button> -->
         {% endif %}
 
@@ -41,7 +52,15 @@
                   {{ bnuser.bio }}
                 </div>
 
-                <h2 class="title is-5">Following</h2>
+                <h2 class="title is-5">Followers</h2>
+
+                {% if followers_length == 0 %}
+
+                <div class="notification is-light">
+                    <strong>None ಥ_ಥ</strong>
+                </div>
+
+                {% else %}
 
                 {% for follower in followers %}
 
@@ -50,6 +69,28 @@
                 </div>
 
                 {% endfor %}
+
+                {% endif %}
+
+                <h2 class="title is-5">Following</h2>
+
+                {% if following_length == 0 %}
+
+                <div class="notification is-light">
+                    <strong>None ಥ_ಥ</strong>
+                </div>
+
+                {% else %}
+
+                {% for follow in following %}
+
+                <div class="notification is-light">
+                    <strong><a href="{% url 'profile' follow.ID %}">{{ follow.name }}</a></strong>
+                </div>
+
+                {% endfor %}
+                
+                {% endif %}
 
             </div>
         </section>
