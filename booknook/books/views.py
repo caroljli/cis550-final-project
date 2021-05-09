@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
-from books.models import Book
-from books.models import BestBook
+from books.models import Book, BestBook
+from user.models import BookReview
 
 # logistical
 
@@ -47,8 +47,8 @@ def book(request, url=None):
     logged_in = True
     if Book.objects.get(id=url):
         book = Book.objects.get(id=url)
-        # TODO: filter for book reviews
-        return render(request, "book.html", {"book": book, "logged_in": logged_in})
+        reviews = BookReview.objects.filter(book_title=url)
+        return render(request, "book.html", {"book": book, "logged_in": logged_in, "reviews": reviews})
     else:
         return render("404: book not found")
 

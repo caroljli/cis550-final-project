@@ -29,20 +29,8 @@
                 {% for review in reviews %}
 
                 <div class="card">
-                    <!-- {% if review.picture_is_not_null %}
-                    <div class="card-image">
-                        <figure class="image is-4by3">
-                            <img src="{{ review.picture }}">
-                        </figure>
-                    </div>
-                    {% endif %} -->
                     <div class="card-content">
                         <div class="media">
-                            <!-- <div class="media-left">
-                                <figure class="image is-48x48">
-                                    <img src="{{ review.get_user_picture }}">
-                                </figure>
-                            </div> -->
                             <div class="media-content">
                                 <p class="title is-4">{{ review.title }}</p>
                                 <p class="subtitle is-6">Wrtten by <a href="/">@{{ review.author }}</a></p>
@@ -54,9 +42,7 @@
                         </div>
 
                         <div class="content">
-                            {{ review.content }}
-                            <br></br>
-                            <time datetime="2016-1-1" style="font-size: 12px;">{{ review.time }}</time>
+                            {{ review.review_content }}
                         </div>
                     </div>
                 </div>

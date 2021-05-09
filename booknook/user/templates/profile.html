@@ -64,38 +64,30 @@
                 <h2 class="title is-4">Recent Activity</h2>
                 <h3 class="subtitle is-5">Read {{ bnuser.name }}'s Recent Reviews.</h3>
 
+                {% for review in reviews %}
+
                 <div class="card">
-                    <!-- {% if review.picture_is_not_null %}
-                    <div class="card-image">
-                        <figure class="image is-4by3">
-                            <img src="{{ review.picture }}">
-                        </figure>
-                    </div>
-                    {% endif %} -->
                     <div class="card-content">
                         <div class="media">
-                            <!-- <div class="media-left">
-                                <figure class="image is-48x48">
-                                    <img src="{{ review.get_user_picture }}">
-                                </figure>
-                            </div> -->
                             <div class="media-content">
-                                <p class="title is-4">Review Title</p>
-                                <p class="subtitle is-6">Wrtten by <a href="/">@soohyung</a></p>
+                                <p class="title is-4">{{ review.title }}</p>
+                                <!-- <p class="subtitle is-6">Wrtten by <a href="/">@{{ review.author }}</a></p> -->
                             </div>
                         </div>
                         
                         <div class="content">
-                            <h4><a style="color: #ffc21c" href="/">Book Title</a></h4>
+                            <h4><a style="color: #ffc21c" href="/">{{ review.book_title }}</a></h4>
                         </div>
 
                         <div class="content">
-                            Content of review.
-                            <br></br>
-                            <time datetime="2016-1-1" style="font-size: 12px;">2021-04-26 11:59PM</time>
+                            {{ review.review_content }}
                         </div>
                     </div>
                 </div>
+
+                <br>
+
+                {% endfor %}
 
                 <br>
 

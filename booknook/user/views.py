@@ -20,7 +20,18 @@ def profile(request):
         user_id = user.id
         username = user.username
     bnuser = BookNookUser.objects.filter(ID=user_id).first()
-    return render(request, "profile.html", {"bnuser": bnuser, "user": user, "logged_in": logged_in, "username": username})
+    reviews = BookReview.objects.filter(author=user_id)
+    print(user_id)
+    return render(request, "profile.html", {"bnuser": bnuser, "user": user, "logged_in": logged_in, "username": username, "reviews": reviews})
+
+def user_profile(request, url=None):
+    logged_in = True
+    bnuser = BookNookUser.objects.filter(ID=url).first()
+    user = User.objects.get(id=url)
+    username = user.username
+    reviews = BookReview.objects.filter(author=url)
+    print(url)
+    return render(request, "profile.html", {"bnuser": bnuser, "user": user, "logged_in": logged_in, "username": username, "reviews": reviews})
 
 def timeline(request):
     # reviews = BookReview.objects.all()
@@ -34,7 +45,8 @@ def timeline(request):
     except ObjectDoesNotExist:
         user = request.user
         bnuser = BookNookUser.objects.get(ID=user.id)
-    return render(request, "timeline.html", {"books": books, "user": user, "bnuser": bnuser, "logged_in": logged_in})
+    reviews = BookReview.objects.all()
+    return render(request, "timeline.html", {"books": books, "user": user, "bnuser": bnuser, "logged_in": logged_in, "reviews": reviews})
 
 def user_login(request):
     return render(request, "user_login.html", {})
@@ -82,17 +94,17 @@ def new_review(request):
     user = request.user
     # review_id = random()
     title = request.POST.get("review_title")
-    title = request.POST.get("book_title")
+    book_title = request.POST.get("book_title")
     author = BookNookUser.objects.get(ID=user.id).ID
-    book_id = Book.objects.get(title=title).ID
+    book_id = Book.objects.get(title=book_title).ID
     time = datetime.now()
     review_content = request.POST.get("review_body")
     review = BookReview.objects.create(title=title, author=author, book_title=book_id, time=time, review_content=review_content)
     review.save()
     
-    reviews = BookReview.objects.get(book_title=book_id)
-    books = Book.objects.all()
+    # reviews = BookReview.objects.get(book_title=book_id)
+    # books = Book.objects.all()
 
-    return render(request.META['HTTP_REFERER'], {reviews: reviews, books: books})
+    return render(request.META['HTTP_REFERER'], {})
 
 

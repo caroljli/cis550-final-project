@@ -42,7 +42,7 @@
                             </div> -->
                             <div class="media-content">
                                 <p class="title is-4">{{ review.title }}</p>
-                                <p class="subtitle is-6">Wrtten by <a href="/">@{{ review.author }}</a></p>
+                                <p class="subtitle is-6">Wrtten by <a href="{% url 'profile' review.author %}">@{{ review.author }}</a></p>
                             </div>
                         </div>
                         
@@ -51,9 +51,9 @@
                         </div>
 
                         <div class="content">
-                            {{ review.content }}
+                            {{ review.review_content }}
                             <br></br>
-                            <time datetime="2016-1-1" style="font-size: 12px;">{{ review.time }}</time>
+                            <!-- <time datetime="2016-1-1" style="font-size: 12px;">{{ review.time }}</time> -->
                         </div>
                     </div>
                 </div>

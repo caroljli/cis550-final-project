@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from books.views import splash, book_directory, authors, mostreviews, book
-from user.views import profile, timeline, user_login, user_login_view, logout_view, register_complete, user_register, user_register_view, new_review
+from user.views import profile, timeline, user_login, user_login_view, logout_view, register_complete, user_register, user_register_view, new_review, user_profile
 
 
 urlpatterns = [
@@ -29,6 +29,7 @@ urlpatterns = [
     path('authors/', authors, name="authors"),
     path('mostreviews/', mostreviews, name="mostreviews"),
     path('profile/', profile, name="profile"),
+    path('profile/<slug:url>', user_profile, name="profile"),
     path('timeline/', timeline, name="timeline"),
 
     # user auth
