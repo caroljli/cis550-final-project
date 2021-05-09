@@ -12,7 +12,7 @@
           @{{ username }}
         </h2>
 
-        {% if url is not None %}
+        {% if url is not None and url is not user.id %}
 
         {% if followed is False %}
 
@@ -37,7 +37,7 @@
         </form> 
 
         {% endif %}
-        
+
         <!-- <button class="button is-light is-info"><strong>Follow</strong></button> -->
         {% endif %}
 

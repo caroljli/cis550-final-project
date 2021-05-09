@@ -153,7 +153,8 @@ def new_review(request):
     review_content = request.POST.get("review_body")
     review = BookReview.objects.create(ID=review_id, review_title=review_title, author=author, book_title=book_id, time=time, review_content=review_content, book_name=book_title, author_name=author_name)
     review.save()
-    return redirect("/timeline")
+    # return redirect("/timeline")
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 def follow_user(request, url=None):
     print(request.POST.get('follow_user'))
@@ -168,4 +169,5 @@ def follow_user(request, url=None):
     else:
         # to_unfollow = BookNookUser.objects.get(ID=request.POST.get('unfollow_user'))
         UserFollowers.objects.filter(ID=request.POST.get('unfollow_user')).delete()
-    return redirect("/profile")
+    # return redirect("/profile")
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
