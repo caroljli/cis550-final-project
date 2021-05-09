@@ -12,7 +12,9 @@
           @{{ username }}
         </h2>
 
-        {% if url is not None or bnuser.ID is url %}
+        {% if url is not None %}
+
+        {% if followed is False %}
 
         <form method="POST" action="/follow_user/">
             {% csrf_token %}
@@ -23,8 +25,8 @@
             </div>
         </form>
 
+        {% else %}
 
-<!-- 
         <form method="POST" action="/follow_user/">
             {% csrf_token %}
             <div class="buttons">
@@ -32,7 +34,10 @@
                     <strong>Unfollow</strong>
                 </button>
             </div>
-        </form>  -->
+        </form> 
+
+        {% endif %}
+        
         <!-- <button class="button is-light is-info"><strong>Follow</strong></button> -->
         {% endif %}
 
@@ -89,7 +94,7 @@
                 </div>
 
                 {% endfor %}
-                
+
                 {% endif %}
 
             </div>

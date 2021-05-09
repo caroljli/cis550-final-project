@@ -61,10 +61,16 @@ def user_profile(request, url=None):
     following = UserFollowers.objects.filter(follower_id=url)
     followers_length = len(followers)
     following_length = len(following)
+    try: 
+        followers.get(follower_id=request.user.id)
+        followed = True
+    except ObjectDoesNotExist:
+        followed = False
     print(url)
     print(followers_length)
     print(following_length)
-    return render(request, "profile.html", {"url": url, "bnuser": bnuser, "user": user, "logged_in": logged_in, "username": username, "reviews": reviews, "followers": followers, "following": following, "followers_length": followers_length, "following_length": following_length})
+    print(followed)
+    return render(request, "profile.html", {"url": url, "bnuser": bnuser, "user": user, "logged_in": logged_in, "username": username, "reviews": reviews, "followers": followers, "following": following, "followers_length": followers_length, "following_length": following_length, "followed": followed})
 
 def timeline(request):
     # reviews = BookReview.objects.all()
@@ -159,8 +165,7 @@ def follow_user(request, url=None):
         to_follow = BookNookUser.objects.get(ID=request.POST.get('follow_user'))
         UserFollowers.objects.create(ID=to_follow.ID, name=to_follow.name, follower_id=bnfollower.ID, follower_name=bnfollower.name)
         print(bnfollower.name)
-    # TODO: unfollow handling
     else:
-        to_unfollow = BookNookUser.objects.get(ID=request.POST.get('unfollow_user'))
-        UserFollowers.objects.filter(ID=bnfollower.ID).delete()
-    return redirect('/profile')
+        # to_unfollow = BookNookUser.objects.get(ID=request.POST.get('unfollow_user'))
+        UserFollowers.objects.filter(ID=request.POST.get('unfollow_user')).delete()
+    return redirect("/profile")
