@@ -114,13 +114,14 @@ def new_review(request):
 def follow_user(request, url=None):
     print(request.POST.get('follow_user'))
     print(request.user.id)
-    
+
     user = request.user
     bnfollower = BookNookUser.objects.filter(ID=user.id).first()
     # if 'follow_user' in request.POST:
     to_follow = BookNookUser.objects.get(ID=request.POST.get('follow_user'))
     UserFollowers.objects.create(ID=to_follow.ID, name=to_follow.name, follower_id=bnfollower.ID, follower_name=bnfollower.name)
     print(bnfollower.name)
+    # TODO: unfollow handling
     # else:
     #     to_unfollow = BookNookUser.objects.get(ID=request.POST.get('unfollow_user'))
     #     UserFollowers.objects.filter(ID=bnfollower.ID).delete()
