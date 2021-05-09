@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login as auth_login, logout
 from django.contrib.auth.models import User
-from user.models import BookNookUser, BookReview
+from user.models import BookNookUser, BookReview, UserFollowers
 from books.models import Book
 from allauth.socialaccount.models import SocialAccount
 from django.contrib.auth.decorators import login_required
@@ -23,8 +23,9 @@ def profile(request):
         username = user.username
     bnuser = BookNookUser.objects.filter(ID=user_id).first()
     reviews = BookReview.objects.filter(author=user_id)
+    followers = UserFollowers.objects.filter(id=user_id)
     print(user_id)
-    return render(request, "profile.html", {"url": url, "bnuser": bnuser, "user": user, "logged_in": logged_in, "username": username, "reviews": reviews})
+    return render(request, "profile.html", {"url": url, "bnuser": bnuser, "user": user, "logged_in": logged_in, "username": username, "reviews": reviews, "followers": followers})
 
 def user_profile(request, url=None):
     logged_in = True
@@ -102,15 +103,23 @@ def new_review(request):
     print(book_title)
     author_name = BookNookUser.objects.filter(ID=user.id).first().name
     author = BookNookUser.objects.filter(ID=user.id).first().ID
-    book_id = Book.objects.get(title=book_title).ID
+    book_id = Book.objects.filter(title=book_title).first().ID
     time = datetime.now()
     review_content = request.POST.get("review_body")
-    review = BookReview.objects.create(ID=review_id, title=title, author=author, book_title=book_id, time=time, review_content=review_content, book_name=book_title, author_name=author_name)
+    review = BookReview.objects.create(ID=review_id, review_title=title, author=author, book_title=book_id, time=time, review_content=review_content, book_name=book_title, author_name=author_name)
     review.save()
-    
-    # reviews = BookReview.objects.get(book_title=book_id)
-    # books = Book.objects.all()
 
     return HttpResponseRedirect(request.path_info)
 
-
+def follow_user(request):
+    print(request.POST.get('follow_user'))
+    follower = request.user
+    bnfollower = BookNookUser.objects.filter(ID=follower.ID).first()
+    # if 'follow_user' in request.POST:
+    to_follow = BookNookUser.objects.get(ID=request.POST.get('follow_user'))
+    UserFollowers.objects.create(ID=to_follow.ID, name=to_follow.name, follower_id=bnfollower.ID, follower_name=bnfollower.name)
+    print(bnfollower.name)
+    # else:
+    #     to_unfollow = BookNookUser.objects.get(ID=request.POST.get('unfollow_user'))
+    #     UserFollowers.objects.filter(ID=bnfollower.ID).delete()
+    return HttpResponseRedirect(request.path_info)

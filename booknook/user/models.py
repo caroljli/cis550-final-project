@@ -17,7 +17,7 @@ class BookNookUser(models.Model):
 class BookReview(models.Model):
     ID = models.IntegerField()
     # review_id = models.IntegerField(primary_key=True, default=0)
-    title = models.TextField()
+    review_title = models.TextField()
     # author = models.ForeignKey(BookNookUser, on_delete=models.CASCADE)
     author = models.IntegerField()
     book_name = models.CharField(max_length=200)
@@ -27,6 +27,16 @@ class BookReview(models.Model):
     book_title = models.IntegerField()
     time = models.DateTimeField(auto_now=True, null=True)
     review_content = models.CharField(max_length=200)
+    
     class Meta:
        db_table = "BOOKREVIEW"
     #    abstract = True
+
+class UserFollowers(models.Model):
+    ID = models.IntegerField()
+    name = models.CharField(max_length=200)
+    follower_id = models.IntegerField()
+    follower_name = models.CharField(max_length=200)
+
+    class Meta:
+        db_table = "USERFOLLOWERS"
