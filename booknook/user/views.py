@@ -8,6 +8,7 @@ from django.contrib.auth.decorators import login_required
 from datetime import datetime
 import random
 from django.core.exceptions import ObjectDoesNotExist
+from django.http import HttpResponseRedirect
 
 def profile(request):
     logged_in = True
@@ -96,7 +97,8 @@ def new_review(request):
     print(review_id)
     title = request.POST.get("review_title")
     book_title = request.POST.get("book_title")
-    author = BookNookUser.objects.get(ID=user.id).ID
+    print(book_title)
+    author = BookNookUser.objects.filter(ID=user.id).first().ID
     book_id = Book.objects.get(title=book_title).ID
     time = datetime.now()
     review_content = request.POST.get("review_body")
@@ -106,6 +108,6 @@ def new_review(request):
     # reviews = BookReview.objects.get(book_title=book_id)
     # books = Book.objects.all()
 
-    return render(request.META['HTTP_REFERER'], {})
+    return HttpResponseRedirect(request.path_info)
 
 
