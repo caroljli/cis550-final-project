@@ -15,6 +15,7 @@ class BookNookUser(models.Model):
         db_table = "BOOKNOOKUSER"
 
 class BookReview(models.Model):
+    ID = models.IntegerField()
     # review_id = models.IntegerField(primary_key=True, default=0)
     title = models.TextField()
     # author = models.ForeignKey(BookNookUser, on_delete=models.CASCADE)
