@@ -17,7 +17,7 @@
         <form method="POST" action="/follow_user/">
             {% csrf_token %}
             <div class="buttons">
-                <button class="button is-light is-info" style="font-family: Avenir" type="submit" name='follow_user' value='{{ bnuser.ID }}'>
+                <button class="button is-light is-info" style="font-family: Avenir" type="submit" name='follow_user' value='{{ url }}'>
                     <strong>Follow</strong>
                 </button>
             </div>

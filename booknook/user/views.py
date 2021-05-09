@@ -111,10 +111,12 @@ def new_review(request):
 
     return HttpResponseRedirect(request.path_info)
 
-def follow_user(request):
+def follow_user(request, url=None):
     print(request.POST.get('follow_user'))
-    follower = request.user
-    bnfollower = BookNookUser.objects.filter(ID=follower.ID).first()
+    print(request.user.id)
+    
+    user = request.user
+    bnfollower = BookNookUser.objects.filter(ID=user.id).first()
     # if 'follow_user' in request.POST:
     to_follow = BookNookUser.objects.get(ID=request.POST.get('follow_user'))
     UserFollowers.objects.create(ID=to_follow.ID, name=to_follow.name, follower_id=bnfollower.ID, follower_name=bnfollower.name)
