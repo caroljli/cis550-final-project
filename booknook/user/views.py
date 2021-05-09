@@ -97,20 +97,28 @@ def new_review(request):
     user = request.user
     review_id = random.randint(1,1000)
     print(review_id)
-    title = request.POST.get("review_title")
+    review_title = request.POST.get("review_title")
+    print(review_title)
     book_title = request.POST.get("book_title")
     print(book_title)
     author_name = BookNookUser.objects.filter(ID=user.id).first().name
     author = BookNookUser.objects.filter(ID=user.id).first().ID
-    book_id = Book.objects.get(title=book_title).ID
+
+    print("author worked")
+
+    # print(Book.objects.filter(title__icontains = str(book_title)))
+    print(Book.objects.filter(title__icontains = str(book_title)).first().ID)
+
+    print ("break")
+    book_id = Book.objects.filter(title__icontains = str(book_title)).first().ID
+
     time = datetime.now()
     review_content = request.POST.get("review_body")
-    review = BookReview.objects.create(ID=review_id, title=title, author=author, book_title=book_id, time=time, review_content=review_content, book_name=book_title, author_name=author_name)
+    review = BookReview.objects.create(ID=review_id, review_title=review_title, author=author, book_title=book_id, time=time, review_content=review_content, book_name=book_title, author_name=author_name)
     review.save()
     
     # reviews = BookReview.objects.get(book_title=book_id)
     # books = Book.objects.all()
 
-    return HttpResponseRedirect(request.path_info)
-
+    return redirect("/timeline")
 
