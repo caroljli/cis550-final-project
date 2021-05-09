@@ -40,7 +40,6 @@ def book_directory(request):
         results = BestBook.objects.raw('SELECT DISTINCT * FROM BESTSELLERS b WHERE b.authors = %(param)s', param_dict)
     elif genre_params is not None:
         param_dict = { "param": genre_params }
-<<<<<<< HEAD
         results = BestBook.objects.raw('SELECT DISTINCT * FROM BESTSELLERS b WHERE b.genre = %(param)s ORDER BY b.reviews DESC FETCH FIRST 10 rows only', param_dict)
     # elif recommended_params is not None:
     #     param_dict = { "param": recommended_params }
@@ -48,9 +47,6 @@ def book_directory(request):
     elif year_params is not None:
         param_dict = { "param": year_params }
         results = BestBook.objects.raw('SELECT DISTINCT * FROM BESTSELLERS b WHERE b.year >= %(param)s', param_dict)
-=======
-        results = BestBook.objects.raw('SELECT * FROM BESTSELLERS b WHERE b.genre = %(param)s ORDER BY b.rating DESC FETCH FIRST 10 rows only', param_dict)
->>>>>>> f3a527e9414dae1e740b8d48a957ff185f8a3dbe
     else: 
         results = Book.objects.all()
     return render(request, "book_directory.html", {"books": results, "logged_in": logged_in})
