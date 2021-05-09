@@ -42,7 +42,8 @@ def timeline(request):
         user = SocialAccount.objects.get(user=request.user)
         user_id = user.user.id
         name = user.extra_data.get('name')
-        bnuser = BookNookUser.objects.create(ID=user_id, name=name)
+        bio = "I am a Google user!"
+        bnuser = BookNookUser.objects.create(ID=user_id, name=name, bio=bio)
     except ObjectDoesNotExist:
         user = request.user
         bnuser = BookNookUser.objects.get(ID=user.id)
@@ -78,7 +79,7 @@ def user_register_view(request):
         userObj = User.objects.create(username=username, password=password)
         userObj.set_password(password)
         userObj.save()
-        booknook_user = BookNookUser.objects.create(ID=userObj.id, name=name)
+        booknook_user = BookNookUser.objects.create(ID=userObj.id, name=name, bio=bio)
         booknook_user.save()
         return redirect('/register_complete')
 

@@ -8,7 +8,7 @@ class BookNookUser(models.Model):
     ID = models.IntegerField()
     # userObj = models.OneToOneField(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=200)
-    # bio = models.TextField(null=True)
+    bio = models.TextField(null=True)
     # time = models.DateTimeField(auto_now=True, null=True)
     # following = models.ManyToManyField(Follow, related_name='following', null=True)
     class Meta:
