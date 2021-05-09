@@ -22,7 +22,7 @@
             </a>
           </div>
             
-          {% if user.is_authenticated %}
+          {% if user.is_authenticated or logged_in %}
 
           <div class="navbar-start">
             <a class="navbar-item" href="/timeline">

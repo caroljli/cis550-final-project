@@ -15,6 +15,7 @@ def splash(request):
     return render(request, "splash.html", {})
 
 def book_directory(request):
+    logged_in = True
     search_params = request.GET.get("search_params")
     print(search_params)
 
@@ -40,20 +41,23 @@ def book_directory(request):
         results = BestBook.objects.raw('SELECT DISTINCT * FROM BESTSELLERS b WHERE b.genre = %(param)s ORDER BY b.reviews DESC FETCH FIRST 10 rows only', param_dict)
     else: 
         results = Book.objects.all()
-    return render(request, "book_directory.html", {"books": results})
+    return render(request, "book_directory.html", {"books": results, "logged_in": logged_in})
 
 def book(request, url=None):
+    logged_in = True
     if Book.objects.get(id=url):
         book = Book.objects.get(id=url)
         # TODO: filter for book reviews
-        return render(request, "book.html", {"book": book})
+        return render(request, "book.html", {"book": book, "logged_in": logged_in})
     else:
         return render("404: book not found")
 
 def authors(request):
-     results = BestBook.objects.raw('SELECT authors as ID FROM BESTSELLERS GROUP BY authors ORDER BY COUNT(authors) DESC FETCH first 10 rows only')
-     return render(request, "authors.html", {"authors" : results})
+    logged_in = True
+    results = BestBook.objects.raw('SELECT authors as ID FROM BESTSELLERS GROUP BY authors ORDER BY COUNT(authors) DESC FETCH first 10 rows only')
+    return render(request, "authors.html", {"authors" : results, "logged_in": logged_in})
 
 def mostreviews(request):
-     results = BestBook.objects.raw('SELECT DISTINCT b.title as ID FROM BESTSELLERS b ORDER BY b.reviews DESC FETCH FIRST 10 rows only')
-     return render(request, "mostreviews.html", {"reviews" : results})
+    logged_in = True
+    results = BestBook.objects.raw('SELECT DISTINCT b.title as ID FROM BESTSELLERS b ORDER BY b.reviews DESC FETCH FIRST 10 rows only')
+    return render(request, "mostreviews.html", {"reviews" : results, "logged_in": logged_in})

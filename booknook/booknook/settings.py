@@ -22,14 +22,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-oan_q3nqoem@am(yljey1ys32wk0pg=*7ptxq+pw9pl-dq(h_&'
-
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+# SECURITY WARNING: keep the secret key used in production secret!
+SECRET_KEY = 'django-insecure-oan_q3nqoem@am(yljey1ys32wk0pg=*7ptxq+pw9pl-dq(h_&'
 
+ALLOWED_HOSTS = []
 
 # Application definition
 
@@ -42,7 +41,12 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'user',
     'books',
-    # 'booknook.python_hol'
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',
+    'allauth.socialaccount.providers.facebook',
+    'django.contrib.sites'
 ]
 
 MIDDLEWARE = [
@@ -75,6 +79,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'booknook.wsgi.application'
 
+SILENCED_SYSTEM_CHECKS = ['models.E006']
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
@@ -84,21 +89,21 @@ DATABASES = {
         #  'ENGINE': 'django.db.backends.sqlite3',
         # 'NAME': BASE_DIR / 'db.sqlite3',
          'ENGINE': 'django.db.backends.oracle',
-        'NAME': 'ORCL',
+         'NAME': 'ORCL',
          'USER': 'admin',
          'PASSWORD': 'password123',
          'HOST': 'cis550-proj.cjel7pyixr2k.us-east-1.rds.amazonaws.com',
          'PORT': '1521',
     },
-    # 'books': {
-        # 'ENGINE': 'django.db.backends.sqlite3',
-        # 'NAME': BASE_DIR / 'db.sqlite3',
-        #  'ENGINE': 'django.db.backends.mysql',
-        #  'NAME': 'ORCL',
-        #  'USER': 'admin',
-        #  'PASSWORD': 'password123',
-        #  'HOST': 'cis550-proj.cjel7pyixr2k.us-east-1.rds.amazonaws.com',
-        #  'PORT': '1521',
+    # 'reviews': {
+    #     'ENGINE': 'django.db.backends.sqlite3',
+    #     'NAME': BASE_DIR / 'db.sqlite3',
+    #      'ENGINE': 'django.db.backends.mysql',
+    #      'NAME': 'ORCL',
+    #      'USER': 'admin',
+    #      'PASSWORD': 'password123',
+    #      'HOST': 'cis550-proj.cjel7pyixr2k.us-east-1.rds.amazonaws.com',
+    #      'PORT': '1521',
     # }
 }
 
@@ -121,6 +126,37 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend'
+]
+
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        'SCOPE': [
+            'profile',
+            'email',
+        ],
+        'AUTH_PARAMS': {
+            'access_type': 'online',
+        }
+    },
+    'facebook': {
+        'SCOPE': [
+            'profile',
+            'email',
+        ],
+        'AUTH_PARAMS': {
+            'access_type': 'online',
+        }
+    }
+}
+
+SITE_ID = 2
+
+LOGIN_REDIRECT_URL = '/timeline'
+LOGOUT_REDIRECT_URL = '/'
+ACCOUNT_DEFAULT_HTTP_PROTOCOL='https'
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/

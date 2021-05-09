@@ -10,17 +10,20 @@ class BookNookUser(models.Model):
     name = models.CharField(max_length=200)
     # bio = models.TextField(null=True)
     # time = models.DateTimeField(auto_now=True, null=True)
-    # following = models.ManyToManyField(Follow, related_name='following', null=True)gcm
+    # following = models.ManyToManyField(Follow, related_name='following', null=True)
     class Meta:
         db_table = "BOOKNOOKUSER"
 
 class BookReview(models.Model):
-    review_id = models.IntegerField(primary_key=True, default=0)
+    # review_id = models.IntegerField(primary_key=True, default=0)
     title = models.TextField()
-    author = models.ForeignKey(BookNookUser, on_delete=models.CASCADE)
+    # author = models.ForeignKey(BookNookUser, on_delete=models.CASCADE)
+    author = models.IntegerField()
     #author = models.CharField(max_length=200)
-    book_title = models.OneToOneField(Book, on_delete=models.CASCADE)
+    # book = models.ForeignKey(Book, on_delete=models.CASCADE)
+    book_title = models.IntegerField()
     time = models.DateTimeField(auto_now=True, null=True)
     review_content = models.CharField(max_length=200)
     class Meta:
        db_table = "BOOKREVIEW"
+    #    abstract = True
