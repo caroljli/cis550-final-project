@@ -31,10 +31,11 @@ class BestBook(models.Model):
     # publication_date = models.DateField()
     # publisher = models.CharField(max_length=100)
 
-# class BookNookUser(models.Model):
-#     user = models.OneToOneField(User, on_delete=models.CASCADE)
-#     name = models.CharField(max_length=200)
-#     bio = models.TextField()
-#     time = models.DateTimeField(auto_now=True, null=True)
-#     # following = models.ManyToManyField(Follow, related_name='following', null=True)
-#     picture = models.CharField(max_length=600, null=True)
+class BookFollowers(models.Model):
+    ID = models.IntegerField()
+    title = models.CharField(max_length=200)
+    follower_id = models.IntegerField()
+    follower_name = models.CharField(max_length=200)
+
+    class Meta:
+        db_table = "BOOKFOLLOWERS"

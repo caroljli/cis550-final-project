@@ -12,8 +12,17 @@
           @{{ username }}
         </h2>
 
-        {% if url is not None %}
-        <button class="button is-light is-info"><strong>Follow</strong></button>
+        {% if url is not None or bnuser.ID is url %}
+
+        <form method="POST" action="/follow_user/">
+            {% csrf_token %}
+            <div class="buttons">
+                <button class="button is-light is-info" style="font-family: Avenir" type="submit" name='follow_user' value='{{ url }}'>
+                    <strong>Follow</strong>
+                </button>
+            </div>
+        </form>
+        <!-- <button class="button is-light is-info"><strong>Follow</strong></button> -->
         {% endif %}
 
       </div>
@@ -26,13 +35,7 @@
         <section class="section">
             <div class="container">
                 <h2 class="title is-4">About {{ bnuser.name }}</h2>
-                <!-- <h3 class="subtitle is-5">28 // Seoul, South Korea</h3> -->
-                <!-- {% if student.picture_is_not_null %}
-                <figure class="image">
-                    <img src="{{ student.picture }}">
-                </figure>
-                {% endif %} -->
-                <br>
+                <br/>
 
                 <div class="notification is-light">
                   {{ bnuser.bio }}
@@ -40,25 +43,13 @@
 
                 <h2 class="title is-5">Following</h2>
 
-                <div class="notification is-info">
-                    <strong><a href="/">Karen Yen</a></strong>
-                    <p>20 // Taiwan</p>
+                {% for follower in followers %}
+
+                <div class="notification is-light">
+                    <strong><a href="{% url 'profile' follower.follower_id %}">{{ follower.follower_name }}</a></strong>
                 </div>
 
-                <div class="notification is-info">
-                    <strong><a href="/">Mythili B</a></strong>
-                    <p>20 // California, US</p>
-                </div>
-
-                <div class="notification is-info">
-                    <strong><a href="/">Vivian Chiang</a></strong>
-                    <p>21 // California, US</p>
-                </div>
-
-                <div class="notification is-info">
-                    <strong><a href="/">Carol Li</a></strong>
-                    <p>20 // Vancouver, Canada</p>
-                </div>
+                {% endfor %}
 
             </div>
         </section>
@@ -75,10 +66,10 @@
                     <div class="card-content">
                         <div class="media">
                             <div class="media-content">
-                                <a class="title is-4" style="cursor: pointer; color: #80BDFE"><strong>{{ review.title }}</strong></a>
+                                <a class="title is-4" style="cursor: pointer; color: #80BDFE"><strong>{{ review.review_title }}</strong></a>
                                 <br/><br/>
                                 <p class="subtitle is-6">
-                                    Written by <a href="{% url 'profile' review.author %}">@{{ review.author_name }}</a> 
+                                    <strong>Written by <a href="{% url 'profile' review.author %}">@{{ review.author_name }}</a></strong>
                                 </p>
                                 
                             </div>
@@ -87,7 +78,7 @@
                         <div class="content">
                             {{ review.review_content }}
                             <br></br>
-                            <!-- <time datetime="2016-1-1" style="font-size: 12px;">{{ review.time }}</time> -->
+                            <time datetime="2016-1-1" style="font-size: 12px;">{{ review.time }}</time>
                         </div>
 
                         <a class="button" href="{% url 'book' review.book_title %}">{{ review.book_name }}</a>

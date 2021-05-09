@@ -32,10 +32,10 @@
                     <div class="card-content">
                         <div class="media">
                             <div class="media-content">
-                                <a class="title is-4" style="cursor: pointer; color: #80BDFE"><strong>{{ review.title }}</strong></a>
+                                <a class="title is-4" style="cursor: pointer; color: #80BDFE"><strong>{{ review.review_title }}</strong></a>
                                 <br/><br/>
                                 <p class="subtitle is-6">
-                                    Written by <a href="{% url 'profile' review.author %}">@{{ review.author_name }}</a> 
+                                    <strong>Written by <a href="{% url 'profile' review.author %}">@{{ review.author_name }}</a></strong>
                                 </p>
                                 
                             </div>
@@ -44,7 +44,7 @@
                         <div class="content">
                             {{ review.review_content }}
                             <br></br>
-                            <!-- <time datetime="2016-1-1" style="font-size: 12px;">{{ review.time }}</time> -->
+                            <time datetime="2016-1-1" style="font-size: 12px;">{{ review.time }}</time>
                         </div>
 
                         <a class="button" href="{% url 'book' review.book_title %}">{{ review.book_name }}</a>
