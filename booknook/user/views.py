@@ -93,18 +93,28 @@ def timeline(request):
 
     # following books
     # TODO: OPTIMIZE THIS QUERY (and write as sql query)
-    following_book_ids_list = BookFollowers.objects.filter(follower_id=bnuser.ID).values_list('ID', flat=True)
-    following_book_ids = [str(i) for i in following_book_ids_list]
-    print(following_book_ids)
-    reviews = BookReview.objects.filter(book_title__in=following_book_ids)
-    print(reviews.values_list('book_name', flat=True))
+    # following_book_ids_list = BookFollowers.objects.filter(follower_id=bnuser.ID).values_list('ID', flat=True)
+    # following_books_ids_list = BookFollowers.objects.raw('SELECT ID FROM BookFollowers WHERE FOLLOWER_ID = bnuser.ID')
+    print(bnuser.ID)
+    # print(following_books_ids_list.__len__)
+    # following_book_ids = [str(i) for i in following_book_ids_list]
+    # print(following_book_ids)
+    param_dict = { "param": bnuser.ID }
+    reviews = BookReview.objects.raw('SELECT * FROM BookReview WHERE BOOK_TITLE IN (SELECT ID FROM BookFollowers WHERE FOLLOWER_ID = %(param)s)', param_dict)
+    # reviews = BookReview.objects.raw('SELECT * FROM BookReview WHERE BOOK_TITLE IN (SELECT ID FROM BookFollowers WHERE FOLLOWER_ID = 74)')
+    # reviews = BookReview.objects.filter(book_title__in=following_book_ids)
+    # print(reviews.values_list('book_name', flat=True))
 
     # following users
     # TODO: OPTIMIZE THIS QUERY (and write as sql query)
-    following_user_ids_list = UserFollowers.objects.filter(follower_id=bnuser.ID).values_list('ID', flat=True)
-    following_user_ids = [str(i) for i in following_user_ids_list]
-    user_reviews = BookReview.objects.filter(author__in=following_user_ids)
-    print(user_reviews.values_list('book_name', flat=True))
+    # print(bnuser.ID)
+    param_user = { "param": bnuser.ID }
+    user_reviews = BookReview.objects.raw('SELECT * FROM BookReview WHERE AUTHOR IN (SELECT ID FROM UserFollowers WHERE FOLLOWER_ID = %(param)s)', param_user)
+
+    # following_user_ids_list = UserFollowers.objects.filter(follower_id=bnuser.ID).values_list('ID', flat=True)
+    # following_user_ids = [str(i) for i in following_user_ids_list]
+    # user_reviews = BookReview.objects.filter(author__in=following_user_ids)
+    # print(user_reviews.values_list('book_name', flat=True))
 
     return render(request, "timeline.html", {"books": books, "user": user, "bnuser": bnuser, "logged_in": logged_in, "reviews": reviews, "user_reviews": user_reviews})
 
