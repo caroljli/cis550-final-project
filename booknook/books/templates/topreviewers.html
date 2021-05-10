@@ -1,0 +1,45 @@
+
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<section class="hero is-light">
+    <div class="hero-body">
+      <div class="container">
+        <h1 class="title">
+            Top 10 Most Reviwers
+        </h1>
+        <h2 class="subtitle">
+            A list of the current, top 10 reviewers. 
+        </h2>
+      </div>
+    </div>
+</section>
+
+<div class="columns">
+    <div class="column is-one-fifth"></div>
+    <div class="column">
+        <br>
+
+        <br><br>
+        <div class="columns is-multiline">
+            <!-- add the loop here -->
+            {% for reviewer in reviewers %}
+            <div class="column is-one-third">
+                 <div class="card ">
+                  <div class="card-content">
+                    <div class="media">
+                      <div class="media-content">
+                        <p class="title is-4"> {{reviewer.ID}}</p>
+                      </div>
+                    </div>
+                    </div>
+                  </div>
+            </div>
+            <!-- end the loop here -->
+            {% endfor %}
+        </div>
+    </div>
+<div class="column is-one-fifth"></div>
+
+{% endblock %}
