@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
     'allauth.socialaccount.providers.facebook',
+    'allauth.socialaccount.providers.twitter',
     'django.contrib.sites'
 ]
 
@@ -139,7 +140,7 @@ SOCIALACCOUNT_PROVIDERS = {
             'access_type': 'online',
         }
     },
-    'facebook': {
+    'twitter': {
         'SCOPE': [
             'profile',
             'email',
@@ -152,9 +153,9 @@ SOCIALACCOUNT_PROVIDERS = {
 
 SITE_ID = 3
 
-LOGIN_REDIRECT_URL = '/timeline'
-LOGOUT_REDIRECT_URL = '/'
-ACCOUNT_DEFAULT_HTTP_PROTOCOL='https'
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/logout_view/'
+ACCOUNT_DEFAULT_HTTP_PROTOCOL='http'
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/

@@ -19,7 +19,7 @@ def splash(request):
             user = SocialAccount.objects.get(user=request.user)
             user_id = user.user.id
             name = user.extra_data.get('name')
-            bio = "I am a Social Media user!"
+            bio = "I use Social Media!"
             bnuser = BookNookUser.objects.create(ID=user_id, name=name, bio=bio)
         except ObjectDoesNotExist:
             user = request.user
@@ -41,7 +41,10 @@ def profile(request):
     try: 
         user = SocialAccount.objects.get(user=request.user)
         user_id = user.user.id
-        username = user.extra_data.get('email').split('@')[0]
+        if user.extra_data.get('email') is not None:
+            username = user.extra_data.get('email').split('@')[0]
+        else:
+            username = user.extra_data.get('screen_name')
     except ObjectDoesNotExist:
         user = request.user
         user_id = user.id
@@ -95,7 +98,7 @@ def user_login_view(request):
     user = authenticate(username=username, password=password)
     if user is not None:
         auth_login(request, user)
-        return redirect("/timeline")
+        return redirect("/")
     else:
         return redirect("/login")
 
