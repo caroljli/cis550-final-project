@@ -105,8 +105,7 @@ def timeline(request):
     following_user_ids = [str(i) for i in following_user_ids_list]
     user_reviews = BookReview.objects.filter(author__in=following_user_ids)
     print(user_reviews.values_list('book_name', flat=True))
-    
-    # reviews = BookReview.objects.all()
+
     return render(request, "timeline.html", {"books": books, "user": user, "bnuser": bnuser, "logged_in": logged_in, "reviews": reviews, "user_reviews": user_reviews})
 
 def user_login(request):
@@ -120,7 +119,6 @@ def user_login_view(request):
     password = request.POST.get('password')
     user = authenticate(username=username, password=password)
     if user is not None:
-        # bnuser = BookNookUser.objects.get(user=user)
         auth_login(request, user)
         return redirect("/timeline")
     else:
@@ -154,20 +152,11 @@ def logout_view(request):
 def new_review(request):
     user = request.user
     review_id = random.randint(1,1000)
-    # print(review_id)
     review_title = request.POST.get("review_title")
-    # print(review_title)
     book_title = request.POST.get("book_title")
-    # print(book_title)
     author_name = BookNookUser.objects.filter(ID=user.id).first().name
     author = BookNookUser.objects.filter(ID=user.id).first().ID
-
-    # print("author worked")
-
-    # print(Book.objects.filter(title__icontains = str(book_title)))
     print(Book.objects.filter(title__icontains = str(book_title)).first().ID)
-
-    # print ("break")
     book_id = Book.objects.filter(title__icontains = str(book_title)).first().ID
 
     time = datetime.now()
@@ -188,7 +177,6 @@ def follow_user(request):
         UserFollowers.objects.create(ID=to_follow.ID, name=to_follow.name, follower_id=bnfollower.ID, follower_name=bnfollower.name)
         print(bnfollower.name)
     else:
-        # to_unfollow = BookNookUser.objects.get(ID=request.POST.get('unfollow_user'))
         UserFollowers.objects.filter(ID=request.POST.get('unfollow_user')).delete()
     # return redirect("/profile")
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))

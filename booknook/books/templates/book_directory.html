@@ -41,11 +41,6 @@
           <input name="genre_params" class="input is-rounded" type="text" placeholder="🔎  Enter a genre to see the top 10 books for that genre...">
         </form>
 
-        <!-- orm method="GET" action="{% url 'books' %}">
-          {% csrf_token %}
-          <input name="recommended_params" class="input is-rounded" type="text" placeholder="🔎  Enter a book title to get corresponding most recommended book...">
-        </form> -->
-
         <form method="GET" action="{% url 'books' %}">
           {% csrf_token %}
           <input name="year_params" class="input is-rounded" type="text" placeholder="🔎  Enter a year to see books from then onwards...">
@@ -63,7 +58,6 @@
                       <p class="title is-4">
                         <a href="{% url 'book' book.id %}" style="color: black; cursor: pointer"><strong>{{ book.title }}</strong></a>
                       </p>
-                      <!-- <p class="subtitle is-6">@johnsmith</p> -->
 
                     </div>
                   </div>

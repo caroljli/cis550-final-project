@@ -22,11 +22,6 @@ def book_directory(request):
 
     year_params = request.GET.get("year_params")
 
-    # if authors_params:
-    #     print("yes")
-    #     results = BestBook.objects.all()
-    #     return redirect("/authors.html", {"authors": results})
-
     results = Book.objects.all()
     if search_params is not None:
         results = Book.objects.filter(title__icontains = search_params) | Book.objects.filter(authors__icontains = search_params)
@@ -36,9 +31,6 @@ def book_directory(request):
     elif genre_params is not None:
         param_dict = { "param": genre_params }
         results = BestBook.objects.raw('SELECT DISTINCT b.title, b.ID, b.authors, b.rating FROM BESTSELLERS b WHERE b.genre = %(param)s ORDER BY b.rating DESC FETCH FIRST 10 rows only', param_dict)
-    # elif recommended_params is not None:
-    #     param_dict = { "param": recommended_params }
-    #     results = BestBook.objects.raw('WITH ratings AS (SELECT b.title, b.rating FROM BESTSELLERS b ORDER BY b.rating DESC), one_book AS (SELECT b.title, b.rating FROM BESTSELLERS b WHERE b.title = %(param)s) SELECT r.title FROM ratings r WHERE r.rating = rating FETCH FIRST 1 rows only', param_dict)
     elif year_params is not None:
         param_dict = { "param": year_params }
         results = BestBook.objects.raw('SELECT DISTINCT b.title, b.ID, b.authors, b.rating FROM BESTSELLERS b WHERE b.year >= %(param)s', param_dict)

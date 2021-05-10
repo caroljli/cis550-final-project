@@ -14,7 +14,6 @@
 
         <form method="POST" action="/follow_book/">
             {% csrf_token %}
-            <!-- <div class="buttons"> -->
                 {% if followed is False %}
                 <button class="button" style="font-family: Avenir" type="submit" name='follow_book' value='{{ book.ID }}'>
                     <span class="icon is-small"><i class="fas fa-plus" aria-hidden="true"></i></span>
@@ -26,7 +25,6 @@
                     <strong>Unfollow</strong>
                 </button>
                 {% endif %}
-            <!-- </div> -->
         </form>
 
       </div>
