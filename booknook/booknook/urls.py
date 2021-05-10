@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from books.views import book_directory, authors, mostreviews, book
+from books.views import book_directory, authors, mostreviews, book, follow_book
 from user.views import profile, timeline, user_login, user_login_view, logout_view, register_complete, user_register, user_register_view, new_review, user_profile, follow_user, splash
 
 
@@ -48,5 +48,6 @@ urlpatterns = [
     path('book/<slug:url>', book, name="book"),
 
     # following
-    path('follow_user/', follow_user, name="follow_user")
+    path('follow_user/', follow_user, name="follow_user"),
+    path('follow_book/', follow_book, name="follow_book")
 ]

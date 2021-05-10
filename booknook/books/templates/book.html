@@ -12,8 +12,23 @@
           <strong style="color: #80BDFE">{{ book.authors }}</strong> • {{ book.rating }} ⭐
         </h2>
 
-        <button class="button" id="bookpost_button"><strong>Review Book</strong></button>
-        <button class="button"><strong>Follow</strong></button>
+        <form method="POST" action="/follow_book/">
+            {% csrf_token %}
+            <!-- <div class="buttons"> -->
+                {% if followed is False %}
+                <button class="button" style="font-family: Avenir" type="submit" name='follow_book' value='{{ book.ID }}'>
+                    <span class="icon is-small"><i class="fas fa-plus" aria-hidden="true"></i></span>
+                    <strong>Follow</strong>
+                </button>
+                {% else %}
+                <button class="button" style="font-family: Avenir" type="submit" name='unfollow_book' value='{{ book.ID }}'>
+                    <span class="icon is-small"><i class="fas fa-minus" aria-hidden="true"></i></span>
+                    <strong>Unfollow</strong>
+                </button>
+                {% endif %}
+            <!-- </div> -->
+        </form>
+
       </div>
     </div>
 </section>
@@ -23,6 +38,8 @@
     <div class="column">
         <section class="section">
             <div class="container">
+                <button class="button is-fullwidth" id="bookpost_button""><strong>Review Book</strong></button>
+                <br/><br/>
                 <h2 class="title is-4">Reviews for {{ book.title }}</h2>
                 <h3 class="subtitle is-5">Read all user reviews for this book.</h3>
 

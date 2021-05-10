@@ -20,6 +20,7 @@
             {% csrf_token %}
             <div class="buttons">
                 <button class="button is-light is-info" style="font-family: Avenir" type="submit" name='follow_user' value='{{ url }}'>
+                    <span class="icon is-small"><i class="fas fa-plus" aria-hidden="true"></i></span>
                     <strong>Follow</strong>
                 </button>
             </div>
@@ -31,6 +32,7 @@
             {% csrf_token %}
             <div class="buttons">
                 <button class="button is-light is-info" style="font-family: Avenir" type="submit" name='unfollow_user' value='{{ url }}'>
+                    <span class="icon is-small"><i class="fas fa-minus" aria-hidden="true"></i></span>
                     <strong>Unfollow</strong>
                 </button>
             </div>
@@ -38,7 +40,6 @@
 
         {% endif %}
 
-        <!-- <button class="button is-light is-info"><strong>Follow</strong></button> -->
         {% endif %}
 
       </div>
@@ -91,6 +92,26 @@
 
                 <div class="notification is-light">
                     <strong><a href="{% url 'profile' follow.ID %}">{{ follow.name }}</a></strong>
+                </div>
+
+                {% endfor %}
+
+                {% endif %}
+
+                <h2 class="title is-5">Books {{ bnuser.name }} is Following</h2>
+
+                {% if book_following_length == 0 %}
+
+                <div class="notification is-light">
+                    <strong>None ಥ_ಥ</strong>
+                </div>
+
+                {% else %}
+
+                {% for book_follow in book_following %}
+
+                <div class="notification is-info">
+                    <strong><a href="{% url 'book' book_follow.ID %}">{{ book_follow.title }}</a></strong>
                 </div>
 
                 {% endfor %}

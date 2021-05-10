@@ -20,44 +20,106 @@
     <div class="column">
         <section class="section">
             <div class="container">
-                <h2 class="title is-4">Reviews from All Users on BookNook</h2>
-                <!-- <h2 class="title is-4">Reviews from Users and Books You Follow</h2> -->
+                <h2 class="title is-4">Reviews from Users and Books You Follow</h2>
                 <h3 class="subtitle is-5">Keep updated with the most recent activity in the BookNook community.</h3>
 
-                {% for review in reviews %}
-
-                <div class="card">
-                    <div class="card-content">
-                        <div class="media">
-                            <div class="media-content">
-                                <a class="title is-4" style="cursor: pointer; color: #80BDFE"><strong>{{ review.review_title }}</strong></a>
-                                <br/><br/>
-                                <p class="subtitle is-6">
-                                    <strong>Written by <a href="{% url 'profile' review.author %}">@{{ review.author_name }}</a></strong>
-                                </p>
-                                
-                            </div>
-                        </div>
-
-                        <div class="content">
-                            {{ review.review_content }}
-                            <br></br>
-                            <time datetime="2016-1-1" style="font-size: 12px;">{{ review.time }}</time>
-                        </div>
-
-                        <a class="button" href="{% url 'book' review.book_title %}">{{ review.book_name }}</a>
+                <div class="tabs is-centered">
+                    <div class="container">
+                      <ul>
+                        <li class="tab is-active" onclick="openTab(event,'book_reviews')">
+                            <a>
+                            <span class="icon is-small"><i class="fas fa-book" aria-hidden="true"></i></span>
+                            <span>Books</span>
+                          </a>
+                        </li>
+                        <li class="tab" onclick="openTab(event,'user_reviews')">
+                            <a>
+                                <span class="icon is-small"><i class="fas fa-users" aria-hidden="true"></i></span>
+                                <span>Users</span>
+                              </a>
+                        </li>
+                      </ul>
                     </div>
                 </div>
+            
+                <div class="container section">
+                    <div id="book_reviews" class="content-tab" >
+                        {% for review in reviews %}
+                        <div class="card">
+                            <div class="card-content">
+                                <div class="media">
+                                    <div class="media-content">
+                                        <a class="title is-4" style="cursor: pointer; color: #80BDFE"><strong>{{ review.review_title }}</strong></a>
+                                        <br/><br/>
+                                        <p class="subtitle is-6">
+                                            <strong>Written by <a href="{% url 'profile' review.author %}">@{{ review.author_name }}</a></strong>
+                                        </p>
+                                        
+                                    </div>
+                                </div>
 
-                <br>
+                                <div class="content">
+                                    {{ review.review_content }}
+                                    <br></br>
+                                    <time datetime="2016-1-1" style="font-size: 12px;">{{ review.time }}</time>
+                                </div>
 
-                {% endfor %}
+                                <a class="button" href="{% url 'book' review.book_title %}">{{ review.book_name }}</a>
+                            </div>
+                        </div>
+                        <br/>
+                        {% endfor %}
+                    </div>
+                    <div id="user_reviews" class="content-tab" style="display:none">
+                        {% for review in user_reviews %}
+                        <div class="card">
+                            <div class="card-content">
+                                <div class="media">
+                                    <div class="media-content">
+                                        <a class="title is-4" style="cursor: pointer; color: #80BDFE"><strong>{{ review.review_title }}</strong></a>
+                                        <br/><br/>
+                                        <p class="subtitle is-6">
+                                            <strong>Written by <a href="{% url 'profile' review.author %}">@{{ review.author_name }}</a></strong>
+                                        </p>
+                                        
+                                    </div>
+                                </div>
 
+                                <div class="content">
+                                    {{ review.review_content }}
+                                    <br></br>
+                                    <time datetime="2016-1-1" style="font-size: 12px;">{{ review.time }}</time>
+                                </div>
+
+                                <a class="button" href="{% url 'book' review.book_title %}">{{ review.book_name }}</a>
+                            </div>
+                        </div>
+                        <br/>
+                        {% endfor %}
+                    </div>
+                </div>
             </div>
         </section>
     </div>
+            
 
     <div class="column is-one-fifth"></div>
 </div>
+
+<script>
+    function openTab(evt, tabName) {
+        var i, x, tablinks;
+        x = document.getElementsByClassName("content-tab");
+        for (i = 0; i < x.length; i++) {
+            x[i].style.display = "none";
+        }
+        tablinks = document.getElementsByClassName("tab");
+        for (i = 0; i < x.length; i++) {
+            tablinks[i].className = tablinks[i].className.replace(" is-active", "");
+        }
+        document.getElementById(tabName).style.display = "block";
+        evt.currentTarget.className += " is-active";
+    }
+</script>
 
 {% endblock %}

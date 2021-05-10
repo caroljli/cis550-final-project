@@ -2,13 +2,14 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login as auth_login, logout
 from django.contrib.auth.models import User
 from user.models import BookNookUser, BookReview, UserFollowers
-from books.models import Book
+from books.models import Book, BookFollowers
 from allauth.socialaccount.models import SocialAccount
 from django.contrib.auth.decorators import login_required
 from datetime import datetime
 import random
 from django.core.exceptions import ObjectDoesNotExist
 from django.http import HttpResponseRedirect
+from itertools import chain
 
 def splash(request):
     if request.user.is_authenticated:
@@ -18,7 +19,7 @@ def splash(request):
             user = SocialAccount.objects.get(user=request.user)
             user_id = user.user.id
             name = user.extra_data.get('name')
-            bio = "I am a Google user!"
+            bio = "I am a Social Media user!"
             bnuser = BookNookUser.objects.create(ID=user_id, name=name, bio=bio)
         except ObjectDoesNotExist:
             user = request.user
@@ -44,12 +45,14 @@ def profile(request):
     reviews = BookReview.objects.filter(author=user_id)
     followers = UserFollowers.objects.filter(ID=user_id)
     following = UserFollowers.objects.filter(follower_id=user_id)
+    book_following = BookFollowers.objects.filter(follower_id=user_id)
     followers_length = len(followers)
     following_length = len(following)
+    book_following_length = len(book_following)
     print(user_id)
     print(followers_length)
     print(following_length)
-    return render(request, "profile.html", {"url": url, "bnuser": bnuser, "user": user, "logged_in": logged_in, "username": username, "reviews": reviews, "followers": followers, "following": following, "followers_length": followers_length, "following_length": following_length})
+    return render(request, "profile.html", {"url": url, "bnuser": bnuser, "user": user, "logged_in": logged_in, "username": username, "reviews": reviews, "followers": followers, "following": following, "followers_length": followers_length, "following_length": following_length, "book_following": book_following, "book_following_length": book_following_length})
 
 def user_profile(request, url=None):
     logged_in = True
@@ -59,8 +62,10 @@ def user_profile(request, url=None):
     reviews = BookReview.objects.filter(author=url)
     followers = UserFollowers.objects.filter(ID=url)
     following = UserFollowers.objects.filter(follower_id=url)
+    book_following = BookFollowers.objects.filter(follower_id=url)
     followers_length = len(followers)
     following_length = len(following)
+    book_following_length = len(book_following)
     try: 
         followers.get(follower_id=request.user.id)
         followed = True
@@ -69,11 +74,11 @@ def user_profile(request, url=None):
     print(url)
     print(followers_length)
     print(following_length)
+    print(book_followinig_length)
     print(followed)
-    return render(request, "profile.html", {"url": url, "bnuser": bnuser, "user": user, "logged_in": logged_in, "username": username, "reviews": reviews, "followers": followers, "following": following, "followers_length": followers_length, "following_length": following_length, "followed": followed})
+    return render(request, "profile.html", {"url": url, "bnuser": bnuser, "user": user, "logged_in": logged_in, "username": username, "reviews": reviews, "followers": followers, "following": following, "followers_length": followers_length, "following_length": following_length, "followed": followed, "book_following": book_following, "book_following_length": book_following_length})
 
 def timeline(request):
-    # reviews = BookReview.objects.all()
     books = Book.objects.all()
     logged_in = True
     try: 
@@ -85,8 +90,24 @@ def timeline(request):
     except ObjectDoesNotExist:
         user = request.user
         bnuser = BookNookUser.objects.get(ID=user.id)
-    reviews = BookReview.objects.all()
-    return render(request, "timeline.html", {"books": books, "user": user, "bnuser": bnuser, "logged_in": logged_in, "reviews": reviews})
+
+    # following books
+    # TODO: OPTIMIZE THIS QUERY (and write as sql query)
+    following_book_ids_list = BookFollowers.objects.filter(follower_id=bnuser.ID).values_list('ID', flat=True)
+    following_book_ids = [str(i) for i in following_book_ids_list]
+    print(following_book_ids)
+    reviews = BookReview.objects.filter(book_title__in=following_book_ids)
+    print(reviews.values_list('book_name', flat=True))
+
+    # following users
+    # TODO: OPTIMIZE THIS QUERY (and write as sql query)
+    following_user_ids_list = UserFollowers.objects.filter(follower_id=bnuser.ID).values_list('ID', flat=True)
+    following_user_ids = [str(i) for i in following_user_ids_list]
+    user_reviews = BookReview.objects.filter(author__in=following_user_ids)
+    print(user_reviews.values_list('book_name', flat=True))
+    
+    # reviews = BookReview.objects.all()
+    return render(request, "timeline.html", {"books": books, "user": user, "bnuser": bnuser, "logged_in": logged_in, "reviews": reviews, "user_reviews": user_reviews})
 
 def user_login(request):
     return render(request, "user_login.html", {})
@@ -156,7 +177,7 @@ def new_review(request):
     # return redirect("/timeline")
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
-def follow_user(request, url=None):
+def follow_user(request):
     print(request.POST.get('follow_user'))
     print(request.user.id)
 

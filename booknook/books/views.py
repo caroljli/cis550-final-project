@@ -1,17 +1,12 @@
 from django.shortcuts import render, redirect
-from books.models import Book, BestBook
-from user.models import BookReview
+from books.models import Book, BestBook, BookFollowers
+from user.models import BookReview, BookNookUser
+from django.core.exceptions import ObjectDoesNotExist
+from django.http import HttpResponseRedirect
 
 # logistical
 
 def splash(request):
-    # if request.user.is_authenticated:
-    #     if Student.objects.filter(user=request.user).count() > 0:
-    #         return redirect("/student_home")
-    #     else:
-    #         return redirect("/restaurant_home")
-    # else:
-	    # return render(request, "splash.html", {})
     return render(request, "splash.html", {})
 
 def book_directory(request):
@@ -53,10 +48,16 @@ def book_directory(request):
 
 def book(request, url=None):
     logged_in = True
+    followers = BookFollowers.objects.filter(ID=url)
+    try: 
+        followers.get(follower_id=request.user.id)
+        followed = True
+    except ObjectDoesNotExist:
+        followed = False
     if Book.objects.get(id=url):
         book = Book.objects.get(id=url)
         reviews = BookReview.objects.filter(book_title=url)
-        return render(request, "book.html", {"book": book, "logged_in": logged_in, "reviews": reviews})
+        return render(request, "book.html", {"book": book, "logged_in": logged_in, "reviews": reviews, "followed": followed})
     else:
         return render("404: book not found")
 
@@ -69,3 +70,17 @@ def mostreviews(request):
     logged_in = True
     results = BestBook.objects.raw('SELECT DISTINCT b.title as ID FROM BESTSELLERS b ORDER BY b.reviews DESC FETCH FIRST 10 rows only')
     return render(request, "mostreviews.html", {"reviews" : results, "logged_in": logged_in})
+
+def follow_book(request):
+    print(request.POST.get('follow_book'))
+    print(request.user.id)
+
+    user = request.user
+    bnfollower = BookNookUser.objects.filter(ID=user.id).first()
+    if 'follow_book' in request.POST:
+        to_follow = Book.objects.get(ID=request.POST.get('follow_book'))
+        BookFollowers.objects.create(ID=to_follow.ID, title=to_follow.title, follower_id=bnfollower.ID, follower_name=bnfollower.name)
+        print(bnfollower.name)
+    else:
+        BookFollowers.objects.filter(ID=request.POST.get('unfollow_book')).delete()
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
