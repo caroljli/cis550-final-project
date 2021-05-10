@@ -74,7 +74,7 @@ def user_profile(request, url=None):
     print(url)
     print(followers_length)
     print(following_length)
-    print(book_followinig_length)
+    print(book_following_length)
     print(followed)
     return render(request, "profile.html", {"url": url, "bnuser": bnuser, "user": user, "logged_in": logged_in, "username": username, "reviews": reviews, "followers": followers, "following": following, "followers_length": followers_length, "following_length": following_length, "followed": followed, "book_following": book_following, "book_following_length": book_following_length})
 
