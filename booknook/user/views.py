@@ -24,8 +24,13 @@ def splash(request):
         except ObjectDoesNotExist:
             user = request.user
             bnuser = BookNookUser.objects.get(ID=user.id)
-        reviews = BookReview.objects.all()
-        return render(request, "timeline.html", {"books": books, "user": user, "bnuser": bnuser, "logged_in": logged_in, "reviews": reviews})
+
+        param_dict = { "param": bnuser.ID }
+        reviews = BookReview.objects.raw('SELECT * FROM BookReview WHERE BOOK_TITLE IN (SELECT ID FROM BookFollowers WHERE FOLLOWER_ID = %(param)s)', param_dict)
+        param_user = { "param": bnuser.ID }
+        user_reviews = BookReview.objects.raw('SELECT * FROM BookReview WHERE AUTHOR IN (SELECT ID FROM UserFollowers WHERE FOLLOWER_ID = %(param)s)', param_user)
+
+        return render(request, "timeline.html", {"books": books, "user": user, "bnuser": bnuser, "logged_in": logged_in, "reviews": reviews, "user_reviews": user_reviews})
     else:
 	    return render(request, "splash.html", {})
     # return render(request, "splash.html", {})
@@ -78,45 +83,45 @@ def user_profile(request, url=None):
     print(followed)
     return render(request, "profile.html", {"url": url, "bnuser": bnuser, "user": user, "logged_in": logged_in, "username": username, "reviews": reviews, "followers": followers, "following": following, "followers_length": followers_length, "following_length": following_length, "followed": followed, "book_following": book_following, "book_following_length": book_following_length})
 
-def timeline(request):
-    books = Book.objects.all()
-    logged_in = True
-    try: 
-        user = SocialAccount.objects.get(user=request.user)
-        user_id = user.user.id
-        name = user.extra_data.get('name')
-        bio = "I am a Google user!"
-        bnuser = BookNookUser.objects.create(ID=user_id, name=name, bio=bio)
-    except ObjectDoesNotExist:
-        user = request.user
-        bnuser = BookNookUser.objects.get(ID=user.id)
+# def timeline(request):
+#     books = Book.objects.all()
+#     logged_in = True
+#     try: 
+#         user = SocialAccount.objects.get(user=request.user)
+#         user_id = user.user.id
+#         name = user.extra_data.get('name')
+#         bio = "I am a Google user!"
+#         bnuser = BookNookUser.objects.create(ID=user_id, name=name, bio=bio)
+#     except ObjectDoesNotExist:
+#         user = request.user
+#         bnuser = BookNookUser.objects.get(ID=user.id)
 
-    # following books
-    # TODO: OPTIMIZE THIS QUERY (and write as sql query)
-    # following_book_ids_list = BookFollowers.objects.filter(follower_id=bnuser.ID).values_list('ID', flat=True)
-    # following_books_ids_list = BookFollowers.objects.raw('SELECT ID FROM BookFollowers WHERE FOLLOWER_ID = bnuser.ID')
-    print(bnuser.ID)
-    # print(following_books_ids_list.__len__)
-    # following_book_ids = [str(i) for i in following_book_ids_list]
-    # print(following_book_ids)
-    param_dict = { "param": bnuser.ID }
-    reviews = BookReview.objects.raw('SELECT * FROM BookReview WHERE BOOK_TITLE IN (SELECT ID FROM BookFollowers WHERE FOLLOWER_ID = %(param)s)', param_dict)
-    # reviews = BookReview.objects.raw('SELECT * FROM BookReview WHERE BOOK_TITLE IN (SELECT ID FROM BookFollowers WHERE FOLLOWER_ID = 74)')
-    # reviews = BookReview.objects.filter(book_title__in=following_book_ids)
-    # print(reviews.values_list('book_name', flat=True))
+#     # following books
+#     # TODO: OPTIMIZE THIS QUERY (and write as sql query)
+#     # following_book_ids_list = BookFollowers.objects.filter(follower_id=bnuser.ID).values_list('ID', flat=True)
+#     # following_books_ids_list = BookFollowers.objects.raw('SELECT ID FROM BookFollowers WHERE FOLLOWER_ID = bnuser.ID')
+#     print(bnuser.ID)
+#     # print(following_books_ids_list.__len__)
+#     # following_book_ids = [str(i) for i in following_book_ids_list]
+#     # print(following_book_ids)
+#     param_dict = { "param": bnuser.ID }
+#     reviews = BookReview.objects.raw('SELECT * FROM BookReview WHERE BOOK_TITLE IN (SELECT ID FROM BookFollowers WHERE FOLLOWER_ID = %(param)s)', param_dict)
+#     # reviews = BookReview.objects.raw('SELECT * FROM BookReview WHERE BOOK_TITLE IN (SELECT ID FROM BookFollowers WHERE FOLLOWER_ID = 74)')
+#     # reviews = BookReview.objects.filter(book_title__in=following_book_ids)
+#     # print(reviews.values_list('book_name', flat=True))
 
-    # following users
-    # TODO: OPTIMIZE THIS QUERY (and write as sql query)
-    # print(bnuser.ID)
-    param_user = { "param": bnuser.ID }
-    user_reviews = BookReview.objects.raw('SELECT * FROM BookReview WHERE AUTHOR IN (SELECT ID FROM UserFollowers WHERE FOLLOWER_ID = %(param)s)', param_user)
+#     # following users
+#     # TODO: OPTIMIZE THIS QUERY (and write as sql query)
+#     # print(bnuser.ID)
+#     param_user = { "param": bnuser.ID }
+#     user_reviews = BookReview.objects.raw('SELECT * FROM BookReview WHERE AUTHOR IN (SELECT ID FROM UserFollowers WHERE FOLLOWER_ID = %(param)s)', param_user)
 
-    # following_user_ids_list = UserFollowers.objects.filter(follower_id=bnuser.ID).values_list('ID', flat=True)
-    # following_user_ids = [str(i) for i in following_user_ids_list]
-    # user_reviews = BookReview.objects.filter(author__in=following_user_ids)
-    # print(user_reviews.values_list('book_name', flat=True))
+#     # following_user_ids_list = UserFollowers.objects.filter(follower_id=bnuser.ID).values_list('ID', flat=True)
+#     # following_user_ids = [str(i) for i in following_user_ids_list]
+#     # user_reviews = BookReview.objects.filter(author__in=following_user_ids)
+#     # print(user_reviews.values_list('book_name', flat=True))
 
-    return render(request, "timeline.html", {"books": books, "user": user, "bnuser": bnuser, "logged_in": logged_in, "reviews": reviews, "user_reviews": user_reviews})
+#     return render(request, "timeline.html", {"books": books, "user": user, "bnuser": bnuser, "logged_in": logged_in, "reviews": reviews, "user_reviews": user_reviews})
 
 def user_login(request):
     return render(request, "user_login.html", {})
