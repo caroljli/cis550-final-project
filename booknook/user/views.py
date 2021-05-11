@@ -155,6 +155,6 @@ def follow_user(request):
         UserFollowers.objects.create(ID=to_follow.ID, name=to_follow.name, follower_id=bnfollower.ID, follower_name=bnfollower.name)
         print(bnfollower.name)
     else:
-        UserFollowers.objects.filter(ID=request.POST.get('unfollow_user')).delete()
+        UserFollowers.objects.filter(follower_id=user.id).delete()
     # return redirect("/profile")
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))

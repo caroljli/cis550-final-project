@@ -84,5 +84,5 @@ def follow_book(request):
         BookFollowers.objects.create(ID=to_follow.ID, title=to_follow.title, follower_id=bnfollower.ID, follower_name=bnfollower.name)
         print(bnfollower.name)
     else:
-        BookFollowers.objects.filter(ID=request.POST.get('unfollow_book')).delete()
+        BookFollowers.objects.filter(follower_id=user.id).delete()
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))

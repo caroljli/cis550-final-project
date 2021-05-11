@@ -24,8 +24,6 @@
         <a class="button" href="/authors">Get Top 10 Authors</a>
         <a class="button" href="/mostreviews">Get Top 10 Most-Reviewed Books</a>
         <a class="button" href="/topreviewers">Get Top 10 Reviewers</a>
-        <a class="button" href="/commonbooks">Get Top 10 Most Common Books</a>
-        
 
         <br/><br/>
 
@@ -36,12 +34,12 @@
 
         <form method="GET" action="{% url 'books' %}">
           {% csrf_token %}
-          <input name="authors_params" class="input is-rounded" type="text" placeholder="🔎  Enter an author to get their top 10 books...">
+          <input name="authors_params" class="input is-rounded" type="text" placeholder="🔎  Enter an author to get their top books...">
         </form>
 
         <form method="GET" action="{% url 'books' %}">
           {% csrf_token %}
-          <input name="genre_params" class="input is-rounded" type="text" placeholder="🔎  Enter a genre to see the top 10 books for that genre...">
+          <input name="genre_params" class="input is-rounded" type="text" placeholder="🔎  Enter a genre to see the top books for that genre...">
         </form>
 
         <form method="GET" action="{% url 'books' %}">
